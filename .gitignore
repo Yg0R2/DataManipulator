@@ -1,0 +1,10 @@
+*.class
+
+*.war
+*.ear
+
+/.gradle/
+/.settings/
+/bin/
+/build/
+/target/
