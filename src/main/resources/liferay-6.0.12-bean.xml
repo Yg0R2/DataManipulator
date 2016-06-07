@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="defaultCountBean" class="yg0r2.dm.mvc.displayfield.DisplayField">
+		<constructor-arg name="id">
+			<null />
+		</constructor-arg>
+		<constructor-arg name="fieldType" type="yg0r2.dm.mvc.displayfield.FieldType" value="INPUT" />
+		<constructor-arg name="value" value="0" />
+		<constructor-arg name="required" value="true" />
+	</bean>
+
+	<bean id="blog-entry" class="yg0r2.dm.entry.DataManipulatorEntry">
+		<constructor-arg index="0" name="displayFields">
+			<list>
+				<bean parent="defaultCountBean">
+					<constructor-arg name="id" value="blog-entry-count" />
+				</bean>
+				<bean parent="defaultCountBean">
+					<constructor-arg name="id" value="blog-entry-edit-count" />
+				</bean>
+			</list>
+		</constructor-arg>
+		<constructor-arg index="1" name="addMethod">
+			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
+				<constructor-arg name="utilClassName" value="com.liferay.service.blog.BlogEntryServiceUtil" />
+				<constructor-arg name="methodName" value="addEntry" />
+				<constructor-arg name="parameters">
+					<list>
+						<map>
+							<entry key="name" value="title" />
+							<entry key="type" value="java.lang.String" />
+							<entry key="value" value="TitleValue" />
+						</map>
+						<map>
+							<entry key="name" value="content" />
+							<entry key="type" value="java.lang.String" />
+							<entry key="value" value="ContentValue" />
+						</map>
+						<map>
+							<entry key="name" value="userId" />
+							<entry key="type" value="long" />
+							<entry key="value" value="1234" />
+						</map>
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="2" name="updateMethod">
+			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
+				<constructor-arg name="utilClassName" value="com.liferay.service.blog.BlogEntryServiceUtil" />
+				<constructor-arg name="methodName" value="updateEntry" />
+				<constructor-arg name="parameters">
+					<list>
+						<map>
+							<entry key="name" value="editedTitle" />
+							<entry key="type" value="java.lang.String" />
+							<entry key="value" value="EditedTitleValue" />
+						</map>
+						<map>
+							<entry key="name" value="editedContent" />
+							<entry key="type" value="java.lang.String" />
+							<entry key="value" value="EditedContentValue" />
+						</map>
+						<map>
+							<entry key="name" value="userId" />
+							<entry key="type" value="long" />
+							<entry key="value" value="1234" />
+						</map>
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+</beans>
