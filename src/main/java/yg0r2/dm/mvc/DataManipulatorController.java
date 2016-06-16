@@ -20,6 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import yg0r2.dm.entry.DataManipulatorEntry;
@@ -31,8 +32,37 @@ import yg0r2.dm.entry.DataManipulatorEntry;
 @RequestMapping("/")
 public class DataManipulatorController {
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public ModelAndView main(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView selectBean() {
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("liferay-6.0.12-bean.xml");
+
+		String[] beanIds = context.getBeanNamesForType(DataManipulatorEntry.class);
+
+		context.close();
+
+		ModelAndView modelAndView = new ModelAndView("navigation");
+
+		modelAndView.addObject("beanIds", beanIds);
+		modelAndView.addObject("command", "");
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/1", method = RequestMethod.GET)
+	public ModelAndView entryCount(@RequestParam(value = "beanId", required = true) String beanId) throws Exception {
+		DataManipulatorEntry dme = _getDME(beanId);
+
+		ModelAndView modelAndView = new ModelAndView("form");
+
+		modelAndView.addObject("command", "");
+		modelAndView.addObject("fields", dme.getDisplayFields());
+		modelAndView.addObject("beanId", beanId);
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/2", method = RequestMethod.POST)
+	public ModelAndView main2(HttpServletRequest request, HttpServletResponse response) {
 		String beanId = (String) request.getParameter("beanId");
 
 		DataManipulatorEntry dme = _getDME(beanId);

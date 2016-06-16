@@ -12,6 +12,10 @@
  */
 package yg0r2.dm.mvc.displayfield;
 
+import java.util.List;
+
+import yg0r2.dm.util.Pair;
+
 /**
  * @author Yg0R2
  */
@@ -20,7 +24,7 @@ public final class DisplayField {
 	private String _id;
 	private boolean _required;
 	private FieldType _fieldType;
-	private String _value;
+	private Object _value;
 	private boolean _visible;
 
 	/**
@@ -32,7 +36,7 @@ public final class DisplayField {
 	 * @throws IllegalDisplayFieldException
 	 */
 	public DisplayField(String id) {
-		this(id, FieldType.INPUT, "", true, true);
+		this(id, FieldType.INPUT, null, true, true);
 	}
 
 	/**
@@ -44,7 +48,7 @@ public final class DisplayField {
 	 * @throws IllegalDisplayFieldException
 	 */
 	public DisplayField(String id, FieldType fieldType) {
-		this(id, fieldType, "", true, true);
+		this(id, fieldType, null, true, true);
 	}
 
 	/**
@@ -57,7 +61,7 @@ public final class DisplayField {
 	 * @throws IllegalDisplayFieldException
 	 */
 	public DisplayField(String id, FieldType fieldType, boolean required) {
-		this(id, fieldType, "", required, true);
+		this(id, fieldType, null, required, true);
 	}
 
 	/**
@@ -69,7 +73,7 @@ public final class DisplayField {
 	 * @param value
 	 * @throws IllegalDisplayFieldException
 	 */
-	public DisplayField(String id, FieldType fieldType, String value) {
+	public DisplayField(String id, FieldType fieldType, Object value) {
 		this(id, fieldType, value, true, true);
 	}
 
@@ -83,7 +87,7 @@ public final class DisplayField {
 	 * @param required
 	 * @throws IllegalDisplayFieldException
 	 */
-	public DisplayField(String id, FieldType fieldType, String value, boolean required) {
+	public DisplayField(String id, FieldType fieldType, Object value, boolean required) {
 		this(id, fieldType, value, required, true);
 	}
 
@@ -97,7 +101,7 @@ public final class DisplayField {
 	 * @param visible
 	 * @throws IllegalDisplayFieldException
 	 */
-	public DisplayField(String id, FieldType fieldType, String value, boolean required, boolean visible) {
+	public DisplayField(String id, FieldType fieldType, Object value, boolean required, boolean visible) {
 		_id = id;
 
 		_required = required;
@@ -132,7 +136,15 @@ public final class DisplayField {
 	 * @return the value
 	 */
 	public String getValue() {
-		return _value;
+		return String.valueOf(_value);
+	}
+
+	/**
+	 * @return the values list
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Pair<String, String>> getValues() {
+		return (List<Pair<String, String>>) _value;
 	}
 
 	/**
