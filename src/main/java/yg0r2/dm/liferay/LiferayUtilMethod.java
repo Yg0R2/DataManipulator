@@ -81,12 +81,12 @@ public class LiferayUtilMethod {
 		return values.toArray(new Object[values.size()]);
 	}
 
-	public void invoke(Object[] args) throws Exception {
+	public Object invoke(Map<String, Object> presetParameters) throws Exception {
 		Class<?> utilClass = Class.forName(_utilClassName);
 
 		Method method = utilClass.getMethod(_methodName, getParameterTypes());
 
-		method.invoke(null, args);
+		return method.invoke(null, getParameterValues(presetParameters));
 	}
 
 	@VisibleForTesting

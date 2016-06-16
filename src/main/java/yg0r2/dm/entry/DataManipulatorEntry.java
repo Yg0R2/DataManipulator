@@ -12,6 +12,7 @@
  */
 package yg0r2.dm.entry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import yg0r2.dm.liferay.LiferayUtilMethod;
@@ -22,21 +23,36 @@ import yg0r2.dm.mvc.displayfield.DisplayField;
  */
 public class DataManipulatorEntry {
 
-	private LiferayUtilMethod _addEntryMethod;
-	private List<DisplayField> _dDisplayFields;
-	private LiferayUtilMethod _updateEntryMethod;
+	private LiferayUtilMethod _addMethod;
+	private List<DisplayField> _displayFields;
+	private List<DataManipulatorEntry> _subDataManipulatorEntries = new ArrayList<>(0);
+	private LiferayUtilMethod _updateMethod;
 
 	public DataManipulatorEntry(List<DisplayField> displayFields, LiferayUtilMethod addMethod,
 		LiferayUtilMethod updateMethod) {
 
-		_dDisplayFields = displayFields;
+		_displayFields = displayFields;
 
-		_addEntryMethod = addMethod;
-		_updateEntryMethod = updateMethod;
+		_addMethod = addMethod;
+		_updateMethod = updateMethod;
+	}
+
+	public LiferayUtilMethod getAddMethod() {
+		return _addMethod;
 	}
 
 	public List<DisplayField> getDisplayFields() {
-		return _dDisplayFields;
+		return _displayFields;
+	}
+
+	public LiferayUtilMethod getUpdateMethod() {
+		return _updateMethod;
+	}
+
+	public void setSubDataManipulatorEntries(DataManipulatorEntry... dataManipulatorEntries) {
+		for (DataManipulatorEntry dme : dataManipulatorEntries) {
+			_subDataManipulatorEntries.add(dme);
+		}
 	}
 
 }

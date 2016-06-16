@@ -34,12 +34,12 @@
 						<map>
 							<entry key="name" value="title" />
 							<entry key="type" value="java.lang.String" />
-							<entry key="value" value="TitleValue" />
+							<entry key="value" value="Blog Entry Title ${counter} - ${rndString}" />
 						</map>
 						<map>
 							<entry key="name" value="content" />
 							<entry key="type" value="java.lang.String" />
-							<entry key="value" value="ContentValue" />
+							<entry key="value" value="Blog Entry Content ${counter} - ${rndString}" />
 						</map>
 						<map>
 							<entry key="name" value="userId" />

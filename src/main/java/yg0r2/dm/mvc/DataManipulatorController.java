@@ -62,7 +62,7 @@ public class DataManipulatorController {
 	}
 
 	@RequestMapping(value = "/2", method = RequestMethod.POST)
-	public ModelAndView main2(HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView main2(final HttpServletRequest request, HttpServletResponse response) {
 		String beanId = (String) request.getParameter("beanId");
 
 		DataManipulatorEntry dme = _getDME(beanId);

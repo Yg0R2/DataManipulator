@@ -19,6 +19,7 @@ import java.util.Map;
 import jodd.util.StringTemplateParser;
 import yg0r2.dm.mvc.displayfield.DisplayField;
 import yg0r2.dm.mvc.displayfield.FieldType;
+import yg0r2.dm.util.resolver.MacroMapResolver;
 
 /**
  * @author Yg0R2
@@ -112,27 +113,10 @@ public class JspUtil {
 
 		StringTemplateParser templateParser = new StringTemplateParser();
 
-		sb.append(templateParser.parse(FIELD_TEMPLATE, new MacroResolver(fieldMap)));
+		sb.append(templateParser.parse(FIELD_TEMPLATE, new MacroMapResolver(fieldMap)));
 
 		sb.append("</div>");
 
 		return sb;
 	}
-}
-
-class MacroResolver implements jodd.util.StringTemplateParser.MacroResolver {
-
-	private Map<String, String> _fieldMap;
-
-	public MacroResolver(Map<String, String> fieldMap) {
-		super();
-
-		_fieldMap = fieldMap;
-	}
-
-	@Override
-	public String resolve(String macroName) {
-		return _fieldMap.containsKey(macroName) ? _fieldMap.get(macroName) : "";
-	}
-
 }

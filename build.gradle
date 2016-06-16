@@ -39,6 +39,8 @@ buildscript {
 }
 
 dependencies {
+    compile 'commons-lang:commons-lang:latest.release'
+
     compile 'javax.servlet:servlet-api:latest.release'
     compile 'javax.servlet:jstl:latest.release'
     compile 'javax.servlet:jsp-api:latest.release'
