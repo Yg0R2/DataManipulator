@@ -3,6 +3,8 @@
 *.war
 *.ear
 
+gradle.*.properties
+
 /.gradle/
 /.settings/
 /bin/
