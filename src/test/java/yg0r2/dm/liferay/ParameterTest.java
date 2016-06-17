@@ -31,18 +31,22 @@ public class ParameterTest {
 		assertEquals(false, (new Parameter(null, Boolean.class)).getValue());
 		assertEquals(true, (new Parameter(null, Boolean.class, true)).getValue());
 		assertEquals(true, (new Parameter(null, Boolean.class, "true")).getValue());
+		assertNotEquals(false, (new Parameter(null, Boolean.class, true)).getValue());
 
 		assertEquals(0d, (new Parameter(null, Double.class)).getValue());
 		assertEquals(1d, (new Parameter(null, Double.class, 1d)).getValue());
 		assertEquals(1d, (new Parameter(null, Double.class, "1")).getValue());
+		assertNotEquals(0d, (new Parameter(null, Double.class, 1d)).getValue());
 
 		assertEquals(0, (new Parameter(null, Integer.class)).getValue());
 		assertEquals(1, (new Parameter(null, Integer.class, 1)).getValue());
 		assertEquals(1, (new Parameter(null, Integer.class, "1")).getValue());
+		assertNotEquals(0, (new Parameter(null, Integer.class, 1)).getValue());
 
 		assertEquals(0L, (new Parameter(null, Long.class)).getValue());
 		assertEquals(1L, (new Parameter(null, Long.class, 1L)).getValue());
 		assertEquals(1L, (new Parameter(null, Long.class, "1")).getValue());
+		assertNotEquals(0L, (new Parameter(null, Long.class, 1L)).getValue());
 	}
 
 	@Test
@@ -50,18 +54,22 @@ public class ParameterTest {
 		assertEquals(false, (new Parameter(null, Boolean.TYPE)).getValue());
 		assertEquals(true, (new Parameter(null, Boolean.TYPE, true)).getValue());
 		assertEquals(true, (new Parameter(null, Boolean.TYPE, "true")).getValue());
+		assertNotEquals(false, (new Parameter(null, Boolean.TYPE, true)).getValue());
 
 		assertEquals(0d, (new Parameter(null, Double.TYPE)).getValue());
 		assertEquals(1d, (new Parameter(null, Double.TYPE, 1d)).getValue());
 		assertEquals(1d, (new Parameter(null, Double.TYPE, "1")).getValue());
+		assertNotEquals(0d, (new Parameter(null, Double.TYPE, 1d)).getValue());
 
 		assertEquals(0, (new Parameter(null, Integer.TYPE)).getValue());
 		assertEquals(1, (new Parameter(null, Integer.TYPE, 1)).getValue());
 		assertEquals(1, (new Parameter(null, Integer.TYPE, "1")).getValue());
+		assertNotEquals(0, (new Parameter(null, Integer.TYPE, 1)).getValue());
 
 		assertEquals(0L, (new Parameter(null, Long.TYPE)).getValue());
 		assertEquals(1L, (new Parameter(null, Long.TYPE, 1L)).getValue());
 		assertEquals(1L, (new Parameter(null, Long.TYPE, "1")).getValue());
+		assertNotEquals(0L, (new Parameter(null, Long.TYPE, 1L)).getValue());
 	}
 
 	@Test
@@ -69,18 +77,22 @@ public class ParameterTest {
 		assertEquals(false, (new Parameter(null, Boolean.TYPE.toString())).getValue());
 		assertEquals(true, (new Parameter(null, Boolean.TYPE.toString(), true)).getValue());
 		assertEquals(true, (new Parameter(null, Boolean.TYPE.toString(), "true")).getValue());
+		assertNotEquals(false, (new Parameter(null, Boolean.TYPE.toString(), true)).getValue());
 
 		assertEquals(0d, (new Parameter(null, Double.TYPE.toString())).getValue());
 		assertEquals(1d, (new Parameter(null, Double.TYPE.toString(), 1d)).getValue());
 		assertEquals(1d, (new Parameter(null, Double.TYPE.toString(), "1")).getValue());
+		assertNotEquals(0d, (new Parameter(null, Double.TYPE, 1d)).getValue());
 
 		assertEquals(0, (new Parameter(null, Integer.TYPE.toString())).getValue());
 		assertEquals(1, (new Parameter(null, Integer.TYPE.toString(), 1)).getValue());
 		assertEquals(1, (new Parameter(null, Integer.TYPE.toString(), "1")).getValue());
+		assertNotEquals(0, (new Parameter(null, Integer.TYPE.toString(), 1)).getValue());
 
 		assertEquals(0L, (new Parameter(null, Long.TYPE.toString())).getValue());
 		assertEquals(1L, (new Parameter(null, Long.TYPE.toString(), 1L)).getValue());
 		assertEquals(1L, (new Parameter(null, Long.TYPE.toString(), "1")).getValue());
+		assertNotEquals(0L, (new Parameter(null, Long.TYPE.toString(), 1L)).getValue());
 	}
 
 	@Test

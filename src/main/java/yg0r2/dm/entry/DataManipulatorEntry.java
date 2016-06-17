@@ -25,6 +25,10 @@ public class DataManipulatorEntry {
 
 	private LiferayUtilMethod _addMethod;
 	private List<DisplayField> _displayFields;
+	private int _entryCount;
+	private int _entryDepth;
+	private int _entrySubCount;
+	private int _entryUpdateCount;
 	private List<DataManipulatorEntry> _subDataManipulatorEntries = new ArrayList<>(0);
 	private LiferayUtilMethod _updateMethod;
 
@@ -37,18 +41,95 @@ public class DataManipulatorEntry {
 		_updateMethod = updateMethod;
 	}
 
+	/**
+	 * @return the Liferay Util add method.
+	 */
 	public LiferayUtilMethod getAddMethod() {
 		return _addMethod;
 	}
 
+	/**
+	 * @return a list of DisplayFields
+	 */
 	public List<DisplayField> getDisplayFields() {
 		return _displayFields;
 	}
 
+	/**
+	 * @return the entryCount
+	 */
+	public int getEntryCount() {
+		return _entryCount;
+	}
+
+	/**
+	 * @return the entryDepth
+	 */
+	public int getEntryDepth() {
+		return _entryDepth;
+	}
+
+	/**
+	 * @return the entrySubCount
+	 */
+	public int getEntrySubCount() {
+		return _entrySubCount;
+	}
+
+	/**
+	 * @return the entryUpdateCount
+	 */
+	public int getEntryUpdateCount() {
+		return _entryUpdateCount;
+	}
+
+	/**
+	 * @return the subDataManipulatorEntries
+	 */
+	public List<DataManipulatorEntry> getSubDataManipulatorEntries() {
+		return _subDataManipulatorEntries;
+	}
+
+	/**
+	 * @return the Liferay Util update method.
+	 */
 	public LiferayUtilMethod getUpdateMethod() {
 		return _updateMethod;
 	}
 
+	/**
+	 * @param entryCount the entryCount to set
+	 */
+	public void setEntryCount(int entryCount) {
+		_entryCount = entryCount;
+	}
+
+	/**
+	 * @param entryDepth the entryDepth to set
+	 */
+	public void setEntryDepth(int entryDepth) {
+		_entryDepth = entryDepth;
+	}
+
+	/**
+	 * @param entrySubCount the entrySubCount to set
+	 */
+	public void setEntrySubCount(int entrySubCount) {
+		_entrySubCount = entrySubCount;
+	}
+
+	/**
+	 * @param entryUpdateCount the entryUpdateCount to set
+	 */
+	public void setEntryUpdateCount(int entryUpdateCount) {
+		_entryUpdateCount = entryUpdateCount;
+	}
+
+	/**
+	 * Set sub DataManupilatorEntries.
+	 *
+	 * @param dataManipulatorEntries
+	 */
 	public void setSubDataManipulatorEntries(DataManipulatorEntry... dataManipulatorEntries) {
 		for (DataManipulatorEntry dme : dataManipulatorEntries) {
 			_subDataManipulatorEntries.add(dme);

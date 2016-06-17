@@ -25,13 +25,37 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Yg0R2
  */
-public class DataManipulatorRunner extends Thread {
+public class DataManipulatorRunner implements Runnable {
 
 	private static Logger _logger = LoggerFactory.getLogger(DataManipulatorRunner.class);
 
-	
+	private DataManipulatorEntry _dmEntry;
 
-	public final Object addEntry() throws Exception {
+	public DataManipulatorRunner(DataManipulatorEntry dmEntry) {
+		_dmEntry = dmEntry;
+	}
+
+	@Override
+	public void run() {
+		try {
+			int count = _dmEntry.getEntryCount();
+
+			if (count != 0) {
+				for (int i = 0; i < count; i++) {
+					Object entry = addEntry();
+				}
+			}
+			else {
+				// TODO need a parent entry/entryId
+				addSubEntry(null);
+			}
+		}
+		catch (Exception e) {
+			_logger.error("The following exeption appeared during the executiof of this thread.", e);
+		}
+	}
+
+	protected final Object addEntry() throws Exception {
 		Object entry = null;
 
 		Map<String, Object> argsMap = new HashMap<>();
@@ -40,7 +64,7 @@ public class DataManipulatorRunner extends Thread {
 
 		while (true) {
 			try {
-				entry = _addEntryMethod.invoke(argsMap);
+				entry = _dmEntry.getAddMethod().invoke(argsMap);
 
 				break;
 			}
@@ -49,27 +73,21 @@ public class DataManipulatorRunner extends Thread {
 			}
 		}
 
-		for (int i = 0; i < )
+		for (int i = 0; i < _dmEntry.getEntryUpdateCount(); i++) {
+			
+		}
 
 		return entry;
 	}
 
-	public void generate() throws Exception {
-		// TMP
-		int count = 1;
-		int editCount = 1;
-		int depth = 1;
-		int subCount = 1;
+	protected final Object addSubEntry(Object parentEntry) throws Exception {
+		Object entry = null;
 
-		if (count != 0) {
-			for (int i = 0; i < count; i++) {
-				Object entry = addEntry();
-			}
-		}
+		return entry;
 	}
 
-	@Override
-	public void run() {
+	protected final Object updateEntry(Object entry) {
+		return entry;
 	}
 
 	private void _checkException(Exception e) throws Exception {

@@ -12,6 +12,8 @@
  */
 package yg0r2.dm.liferay;
 
+import java.util.Objects;
+
 import com.google.common.annotations.VisibleForTesting;
 
 import yg0r2.dm.util.ReflectUtil;
@@ -102,9 +104,15 @@ public final class Parameter {
 	 */
 	@VisibleForTesting
 	protected boolean equals(Parameter parameter) {
-		return this.getName().equals(parameter.getName()) && this.getType().equals(parameter.getType())
-			&& (((this.getValue() == null) && (parameter.getValue() == null))
-				|| this.getValue().equals(parameter.getValue()));
+		if (!Objects.equals(this.getName(), parameter.getName())) {
+			return false;
+		}
+
+		if (!Objects.equals(this.getType(), parameter.getType())) {
+			return false;
+		}
+
+		return Objects.equals(this.getValue(), parameter.getValue());
 	}
 
 	/**

@@ -20,6 +20,9 @@ import java.util.Map;
 import com.google.common.annotations.VisibleForTesting;
 
 /**
+ * This class represents a Liferay [Local]ServiceUtil. With this, DataManipulator can call a method from a Liferay util
+ * class.
+ *
  * @author Yg0R2
  */
 public class LiferayUtilMethod {
@@ -28,6 +31,13 @@ public class LiferayUtilMethod {
 	private String _methodName;
 	private List<Parameter> _parameters;
 
+	/**
+	 * Create a new LiferayUtilMethod instance
+	 *
+	 * @param utilClassName
+	 * @param methodName
+	 * @param parameters
+	 */
 	@SuppressWarnings("unchecked")
 	public LiferayUtilMethod(String utilClassName, String methodName, Map<String, String>... parameters) {
 
@@ -46,6 +56,9 @@ public class LiferayUtilMethod {
 		_methodName = methodName;
 	}
 
+	/**
+	 * @return the parameter names of the Liferay util method.
+	 */
 	public String[] getParameterNames() {
 		List<String> names = new ArrayList<>(_parameters.size());
 
@@ -56,6 +69,9 @@ public class LiferayUtilMethod {
 		return names.toArray(new String[names.size()]);
 	}
 
+	/**
+	 * @return the parameter types of the Liferay util method.
+	 */
 	public Class<?>[] getParameterTypes() {
 		List<Class<?>> types = new ArrayList<>(_parameters.size());
 
@@ -66,6 +82,10 @@ public class LiferayUtilMethod {
 		return types.toArray(new Class<?>[types.size()]);
 	}
 
+	/**
+	 * @param presetParameters the preset values, what you would like to use instead of the default ones.
+	 * @return an array of the parameters, which are required for the Liferay util method.
+	 */
 	public Object[] getParameterValues(Map<String, Object> presetParameters) {
 		List<Object> values = new ArrayList<>(_parameters.size());
 
@@ -81,6 +101,13 @@ public class LiferayUtilMethod {
 		return values.toArray(new Object[values.size()]);
 	}
 
+	/**
+	 * Invoke the Lifera util method.
+	 * 
+	 * @param presetParameters the preset values, what you would like to use instead of the default ones.
+	 * @return with the object, what the Lifera util method creates.
+	 * @throws Exception If something goes wrong, exception can be thrown.
+	 */
 	public Object invoke(Map<String, Object> presetParameters) throws Exception {
 		Class<?> utilClass = Class.forName(_utilClassName);
 
@@ -89,6 +116,12 @@ public class LiferayUtilMethod {
 		return method.invoke(null, getParameterValues(presetParameters));
 	}
 
+	/**
+	 * <b>ONLY FOR TESTING PURPOSE!</b><br />
+	 * Never use this method in other places.
+	 *
+	 * @return
+	 */
 	@VisibleForTesting
 	protected List<Parameter> getParameters() {
 		return _parameters;
