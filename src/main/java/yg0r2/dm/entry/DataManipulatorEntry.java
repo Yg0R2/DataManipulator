@@ -15,6 +15,8 @@ package yg0r2.dm.entry;
 import java.util.ArrayList;
 import java.util.List;
 
+import jodd.util.ReflectUtil;
+import yg0r2.dm.liferay.LiferayEntry;
 import yg0r2.dm.liferay.LiferayUtilMethod;
 import yg0r2.dm.mvc.displayfield.DisplayField;
 
@@ -29,13 +31,16 @@ public class DataManipulatorEntry {
 	private int _entryDepth;
 	private int _entrySubCount;
 	private int _entryUpdateCount;
+	private LiferayEntry _liferayEntry;
 	private List<DataManipulatorEntry> _subDataManipulatorEntries = new ArrayList<>(0);
 	private LiferayUtilMethod _updateMethod;
 
 	public DataManipulatorEntry(List<DisplayField> displayFields, LiferayUtilMethod addMethod,
-		LiferayUtilMethod updateMethod) {
+		LiferayUtilMethod updateMethod, LiferayEntry liferayEntry) {
 
 		_displayFields = displayFields;
+
+		_liferayEntry = liferayEntry;
 
 		_addMethod = addMethod;
 		_updateMethod = updateMethod;
@@ -70,6 +75,21 @@ public class DataManipulatorEntry {
 	}
 
 	/**
+	 * @param entry Which is a Liferay entry
+	 * @return the id of the given entry
+	 */
+	public String getEntryId(Object entry) {
+		return _liferayEntry.getEntryId(entry);
+	}
+
+	/**
+	 * @return the entryIdKey
+	 */
+	public String getEntryIdKey() {
+		return _liferayEntry.getEntryIdKey();
+	}
+
+	/**
 	 * @return the entrySubCount
 	 */
 	public int getEntrySubCount() {
@@ -81,6 +101,21 @@ public class DataManipulatorEntry {
 	 */
 	public int getEntryUpdateCount() {
 		return _entryUpdateCount;
+	}
+
+	/**
+	 * @param entry Which is a Liferay entry
+	 * @return the given entry's parent id
+	 */
+	public String getParentEntryId(Object entry) {
+		return _liferayEntry.getParentEntryId(entry);
+	}
+
+	/**
+	 * @return the parentEntryIdKey
+	 */
+	public String getParentEntryIdKey() {
+		return _liferayEntry.getParentEntryIdKey();
 	}
 
 	/**

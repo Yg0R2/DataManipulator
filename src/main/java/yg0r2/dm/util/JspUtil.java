@@ -33,7 +33,7 @@ public class JspUtil {
 
 		for (DisplayField displayField : displayFields) {
 
-			Map<String, String> fieldMap = new HashMap<>();
+			Map<String, Object> fieldMap = new HashMap<>();
 
 			// Set 'fieldType'
 
@@ -102,7 +102,7 @@ public class JspUtil {
 		return sb;
 	}
 
-	private static StringBuilder _getWrappedField(String label, Map<String, String> fieldMap) {
+	private static StringBuilder _getWrappedField(String label, Map<String, Object> fieldMap) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("<div class='field-wrapper'>");

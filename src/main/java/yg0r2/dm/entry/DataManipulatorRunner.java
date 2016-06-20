@@ -22,8 +22,12 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import yg0r2.dm.util.RandomUtil;
+
 /**
- * @author Yg0R2
+ * @author Yg0R2
+
+import yg0r2.dm.util.RandomUtil;
  */
 public class DataManipulatorRunner implements Runnable {
 
@@ -37,17 +41,21 @@ public class DataManipulatorRunner implements Runnable {
 
 	@Override
 	public void run() {
-		try {
-			int count = _dmEntry.getEntryCount();
+		int count = _dmEntry.getEntryCount();
 
+		Map<String, Object> argsMap = new HashMap<>();
+
+		try {
 			if (count != 0) {
 				for (int i = 0; i < count; i++) {
-					Object entry = addEntry();
+					argsMap.put("counter", String.valueOf(i));
+
+					Object entry = addEntry(argsMap);
 				}
 			}
 			else {
 				// TODO need a parent entry/entryId
-				addSubEntry(null);
+				addSubEntry(null, argsMap);
 			}
 		}
 		catch (Exception e) {
@@ -55,14 +63,12 @@ public class DataManipulatorRunner implements Runnable {
 		}
 	}
 
-	protected final Object addEntry() throws Exception {
+	protected final Object addEntry(Map<String, Object> argsMap) throws Exception {
 		Object entry = null;
 
-		Map<String, Object> argsMap = new HashMap<>();
-
-		// TODO - have to add/parse values
-
 		while (true) {
+			argsMap.put("rndString", RandomUtil.nextString());
+
 			try {
 				entry = _dmEntry.getAddMethod().invoke(argsMap);
 
@@ -74,20 +80,60 @@ public class DataManipulatorRunner implements Runnable {
 		}
 
 		for (int i = 0; i < _dmEntry.getEntryUpdateCount(); i++) {
-			
+			Map<String, Object> updateArgsMap = new HashMap<>(argsMap);
+
+			updateArgsMap.put("updatePrefix", String.valueOf(i) + ". update on the ");
+
+			entry = updateEntry(entry, updateArgsMap);
+		}
+
+		if (_dmEntry.getEntrySubCount() > 0) {
+			Map<String, Object> subArgsMap = new HashMap<>(argsMap);
+
+			for (int i = 0; i < _dmEntry.getEntrySubCount(); i++) {
+				subArgsMap.put("counter", String.valueOf(i));
+
+				addSubEntry(entry, new HashMap<>(subArgsMap));
+			}
 		}
 
 		return entry;
 	}
 
-	protected final Object addSubEntry(Object parentEntry) throws Exception {
+	protected final Object addSubEntry(Object parentEntry, Map<String, Object> argsMap) throws Exception {
+		argsMap.put(_dmEntry.getParentEntryIdKey(), _dmEntry.getParentEntryId(parentEntry));
+
 		Object entry = null;
+
+		while (true) {
+			argsMap.put("rndString", RandomUtil.nextString());
+
+			try {
+				entry = _dmEntry.getAddMethod().invoke(argsMap);
+
+				break;
+			}
+			catch (Exception e) {
+				_checkException(e);
+			}
+		}
 
 		return entry;
 	}
 
-	protected final Object updateEntry(Object entry) {
-		return entry;
+	protected final Object updateEntry(Object entry, Map<String, Object> argsMap) throws Exception {
+		argsMap.put(_dmEntry.getEntryIdKey(), _dmEntry.getEntryId(entry));
+
+		while (true) {
+			try {
+				return _dmEntry.getUpdateMethod().invoke(argsMap);
+			}
+			catch (Exception e) {
+				_checkException(e);
+
+				argsMap.put("rndString", RandomUtil.nextString());
+			}
+		}
 	}
 
 	private void _checkException(Exception e) throws Exception {

@@ -19,6 +19,9 @@ import java.util.Map;
 
 import com.google.common.annotations.VisibleForTesting;
 
+import jodd.util.StringTemplateParser;
+import yg0r2.dm.util.resolver.MacroMapResolver;
+
 /**
  * This class represents a Liferay [Local]ServiceUtil. With this, DataManipulator can call a method from a Liferay util
  * class.
@@ -89,13 +92,27 @@ public class LiferayUtilMethod {
 	public Object[] getParameterValues(Map<String, Object> presetParameters) {
 		List<Object> values = new ArrayList<>(_parameters.size());
 
+		StringTemplateParser templateParser = new StringTemplateParser();
+
 		for (Parameter parameter : _parameters) {
+			Object value = null;
+
 			if (presetParameters.containsKey(parameter.getName())) {
-				values.add(presetParameters.get(parameter.getName()));
+				value = presetParameters.get(parameter.getName());
 			}
 			else {
-				values.add(parameter.getValue());
+				value = parameter.getValue();
 			}
+
+			if (value instanceof String) {
+				String stringValue = String.valueOf(value);
+
+				if (stringValue.contains("${") && stringValue.contains("}")) {
+					value = templateParser.parse(stringValue, new MacroMapResolver(presetParameters));
+				}
+			}
+
+			values.add(value);
 		}
 
 		return values.toArray(new Object[values.size()]);

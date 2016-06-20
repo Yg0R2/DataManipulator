@@ -23,53 +23,68 @@ public class ReflectUtil {
 	private static Logger _logger = LoggerFactory.getLogger(ReflectUtil.class);
 
 	/**
-	 * Superclass for casting <i>Object</i> values to the required <i>T</i> type.
+	 * If the given <i>value</i> is:
+	 * <ul>
+	 * <li>null, will return with the <i>defaultValue</i>.</li>
+	 * <li><code>instanceOf String<code>, get the <code>String.valueOf(value)</code> and invoke <code>valueOf</code>
+	 * method.</li>
+	 * <li>not <code>instanceOf String<code>, simply use <code>Class.forName(className).cast(value)</code></li>
+	 * </ul>
 	 *
-	 * @author Yg0R2
+	 * @param value
+	 * @param defaultValue
+	 * @return
 	 */
-	public static class Cast<T> {
-
-		private Class<?> _clazz;
-
-		/**
-		 * Constructor; set the <i>T</> type of the instance.
-		 *
-		 * @param clazz
-		 */
-		public Cast(Class<?> clazz) {
-			_clazz = clazz;
+	@SuppressWarnings("unchecked")
+	public static <T> T castValue(Class<T> clazz, Object value, Object defaultValue) {
+		if ((value == null) && (defaultValue == null)) {
+			return (T) null;
 		}
 
-		/**
-		 * If the given <i>value</i> is:
-		 * <ul>
-		 * <li>null, will return with the <i>defaultValue</i>.</li>
-		 * <li><code>instanceOf String<code>, get the <code>String.valueOf(value)</code> and invoke <code>valueOf</code>
-		 * method.</li>
-		 * <li>not <code>instanceOf String<code>, simply use <code>Class.forName(className).cast(value)</code></li>
-		 * </ul>
-		 *
-		 * @param value
-		 * @param defaultValue
-		 * @return
-		 */
-		@SuppressWarnings({ "unchecked", "hiding" })
-		public <T> T castValue(Object value, Object defaultValue) {
-			if (value == null) {
-				return (T) defaultValue;
-			}
+		if (value == null) {
+			// If value is null, we have to do the same steps with defaultValue.
 
-			if (value instanceof String) {
-				try {
-					return (T) jodd.util.ReflectUtil.invoke(_clazz, "valueOf", new Object[] { String.valueOf(value) });
-				}
-				catch (Exception e) {
-					// Ignore
-				}
-			}
-
-			return (T) getType(_clazz.getName()).cast(value);
+			return castValue(clazz, defaultValue, null);
 		}
+
+		try {
+			return (T) jodd.util.ReflectUtil.invoke(clazz, "valueOf", new Object[] { String.valueOf(value) });
+		}
+		catch (Exception e) {
+			// Ignore
+		}
+
+		// If the required class is Integer, try get 'intValue()'.
+		if (clazz.equals(Integer.class)) {
+			try {
+				return (T) jodd.util.ReflectUtil.invoke(value, "intValue", new Object[0]);
+			}
+			catch (Exception e) {
+				// Ignore
+			}
+		}
+
+		// If the required class is Long, try get 'longValue()'.
+		if (clazz.equals(Long.class)) {
+			try {
+				return (T) jodd.util.ReflectUtil.invoke(value, "longValue", new Object[0]);
+			}
+			catch (Exception e) {
+				// Ignore
+			}
+		}
+
+		// If the required class is String, try get 'valueOf()'.
+		if (clazz.equals(String.class)) {
+			try {
+				return (T) String.valueOf(value);
+			}
+			catch (Exception e) {
+				// Ignore
+			}
+		}
+
+		return (T) getType(clazz.getName()).cast(value);
 	}
 
 	/**

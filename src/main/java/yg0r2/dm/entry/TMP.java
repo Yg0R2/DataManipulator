@@ -13,26 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package yg0r2.dm.util.resolver;
+package yg0r2.dm.entry;
 
+import java.util.HashMap;
 import java.util.Map;
-
-import jodd.util.StringTemplateParser.MacroResolver;
 
 /**
  * @author Yg0R2
  */
-public class MacroMapResolver implements MacroResolver {
+public class TMP {
 
-	private Map<String, Object> _fieldMap;
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Map<String, String> a = new HashMap<>();
+		a.put("a1", "a1value");
 
-	public MacroMapResolver(Map<String, Object> fieldMap) {
-		_fieldMap = fieldMap;
-	}
+		Map<String, String> b = new HashMap<>(a);
+		b.put("a1", "a1 edited value");
+		b.put("b1", "b1value");
 
-	@Override
-	public String resolve(String macroName) {
-		return _fieldMap.containsKey(macroName) ? String.valueOf(_fieldMap.get(macroName)) : "";
+		System.out.println(a.get("a1"));
+		System.out.println(a.get("b1"));
+
+		System.out.println(b.get("a1"));
+		System.out.println(b.get("b1"));
 	}
 
 }

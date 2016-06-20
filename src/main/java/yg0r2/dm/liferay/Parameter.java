@@ -17,7 +17,6 @@ import java.util.Objects;
 import com.google.common.annotations.VisibleForTesting;
 
 import yg0r2.dm.util.ReflectUtil;
-import yg0r2.dm.util.ReflectUtil.Cast;
 
 /**
  * @author Yg0R2
@@ -125,16 +124,16 @@ public final class Parameter {
 	 */
 	private Object _getValue(String className, Object value) {
 		if (className.equals(Boolean.TYPE.toString()) || className.equals(Boolean.class.getName())) {
-			return (new Cast<>(Boolean.class)).castValue(value, false);
+			return ReflectUtil.castValue(Boolean.class, value, false);
 		}
 		else if (className.equals(Double.TYPE.toString()) || className.equals(Double.class.getName())) {
-			return (new Cast<>(Double.class)).castValue(value, 0d);
+			return ReflectUtil.castValue(Double.class, value, 0d);
 		}
 		else if (className.equals(Integer.TYPE.toString()) || className.equals(Integer.class.getName())) {
-			return (new Cast<>(Integer.class)).castValue(value, 0);
+			return ReflectUtil.castValue(Integer.class, value, 0);
 		}
 		else if (className.equals(Long.TYPE.toString()) || className.equals(Long.class.getName())) {
-			return (new Cast<>(Long.class)).castValue(value, 0L);
+			return ReflectUtil.castValue(Long.class, value, 0L);
 		}
 
 		return ReflectUtil.getType(className).cast(value);

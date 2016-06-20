@@ -34,12 +34,12 @@
 						<map>
 							<entry key="name" value="title" />
 							<entry key="type" value="java.lang.String" />
-							<entry key="value" value="Blog Entry Title ${counter} - ${rndString}" />
+							<entry key="value" value="${updatePrefix}${counter}. Blog Entry Title - ${rndString}" />
 						</map>
 						<map>
 							<entry key="name" value="content" />
 							<entry key="type" value="java.lang.String" />
-							<entry key="value" value="Blog Entry Content ${counter} - ${rndString}" />
+							<entry key="value" value="${updatePrefix}${counter}. Blog Entry Content - ${rndString}" />
 						</map>
 						<map>
 							<entry key="name" value="userId" />
@@ -73,6 +73,14 @@
 						</map>
 					</list>
 				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="3">
+			<bean class="yg0r2.dm.liferay.LiferayEntry">
+				<property name="entryIdKey" value="entryId" />
+				<property name="parentEntryIdKey">
+					<null />
+				</property>
 			</bean>
 		</constructor-arg>
 	</bean>
