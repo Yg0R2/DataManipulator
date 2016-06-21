@@ -5,10 +5,11 @@
 <%@ page import="yg0r2.dm.mvc.displayfield.DisplayField"%>
 <%@ page import="yg0r2.dm.util.JspUtil"%>
 
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%
 	String actionUrl = "/DataManipulator/2?beanId=" + request.getAttribute("beanId");
 %>
-<form action="<%=actionUrl%>" enctype="multipart/form-data" method="POST">
+<form:form action="<%=actionUrl%>" enctype="multipart/form-data" method="POST">
 	<input name="redirect" type="hidden" />
 
 	<%
@@ -20,4 +21,4 @@
 
 		<button href="" type="cancel">Cancel</button>
 	</div>
-</form>
+</form:form>

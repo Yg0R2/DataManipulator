@@ -12,18 +12,23 @@
  */
 package yg0r2.dm.mvc;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import yg0r2.dm.entry.DataManipulatorEntry;
+import yg0r2.dm.entry.DataManipulatorRunner;
 
 /**
  * @author Yg0R2
@@ -62,10 +67,19 @@ public class DataManipulatorController {
 	}
 
 	@RequestMapping(value = "/2", method = RequestMethod.POST)
-	public ModelAndView main2(final HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView main2(HttpServletRequest request) {
 		String beanId = (String) request.getParameter("beanId");
 
 		DataManipulatorEntry dme = _getDME(beanId);
+
+		dme.setEntryCount(Integer.valueOf(request.getParameter(/*beanId + */"-count")));
+		dme.setEntryUpdateCount(Integer.valueOf(request.getParameter(/*beanId + */"-edit-count")));
+
+		Map<String, Object> argsMap = new HashMap<String, Object>();
+
+		DataManipulatorRunner dmRunner = new DataManipulatorRunner(dme, argsMap);
+
+		dmRunner.run();
 
 		ModelAndView modelAndView = new ModelAndView("index");
 

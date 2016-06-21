@@ -14,7 +14,7 @@
 		<constructor-arg name="required" value="true" />
 	</bean>
 
-	<bean id="blog-entry" class="yg0r2.dm.entry.DataManipulatorEntry">
+	<bean id="blog-entry" class="yg0r2.dm.entry.DataManipulatorEntry" lazy-init="true">
 		<constructor-arg index="0" name="displayFields">
 			<list>
 				<bean parent="defaultCountBean">
@@ -25,7 +25,15 @@
 				</bean>
 			</list>
 		</constructor-arg>
-		<constructor-arg index="1" name="addMethod">
+		<constructor-arg index="1">
+			<bean class="yg0r2.dm.liferay.LiferayEntry">
+				<constructor-arg name="entryIdKey" value="entryId" />
+				<constructor-arg name="parentEntryIdKey">
+					<null />
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="2" name="addMethod">
 			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
 				<constructor-arg name="utilClassName" value="com.liferay.service.blog.BlogEntryServiceUtil" />
 				<constructor-arg name="methodName" value="addEntry" />
@@ -41,21 +49,26 @@
 							<entry key="type" value="java.lang.String" />
 							<entry key="value" value="${updatePrefix}${counter}. Blog Entry Content - ${rndString}" />
 						</map>
-						<map>
+						<!--map>
 							<entry key="name" value="userId" />
 							<entry key="type" value="long" />
 							<entry key="value" value="1234" />
-						</map>
+						</map-->
 					</list>
 				</constructor-arg>
 			</bean>
 		</constructor-arg>
-		<constructor-arg index="2" name="updateMethod">
+		<constructor-arg index="3" name="updateMethod">
 			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
 				<constructor-arg name="utilClassName" value="com.liferay.service.blog.BlogEntryServiceUtil" />
 				<constructor-arg name="methodName" value="updateEntry" />
 				<constructor-arg name="parameters">
 					<list>
+						<map>
+							<entry key="name" value="entryId" />
+							<entry key="type" value="long" />
+							<entry key="value" value="1" />
+						</map>
 						<map>
 							<entry key="name" value="editedTitle" />
 							<entry key="type" value="java.lang.String" />
@@ -66,21 +79,13 @@
 							<entry key="type" value="java.lang.String" />
 							<entry key="value" value="EditedContentValue" />
 						</map>
-						<map>
+						<!--map>
 							<entry key="name" value="userId" />
 							<entry key="type" value="long" />
 							<entry key="value" value="1234" />
-						</map>
+						</map-->
 					</list>
 				</constructor-arg>
-			</bean>
-		</constructor-arg>
-		<constructor-arg index="3">
-			<bean class="yg0r2.dm.liferay.LiferayEntry">
-				<property name="entryIdKey" value="entryId" />
-				<property name="parentEntryIdKey">
-					<null />
-				</property>
 			</bean>
 		</constructor-arg>
 	</bean>

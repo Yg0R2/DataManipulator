@@ -15,30 +15,12 @@
  */
 package yg0r2.dm.entry;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Yg0R2
  */
-public class TMP {
+public class DataManipulatorEntryTest {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		Map<String, String> a = new HashMap<>();
-		a.put("a1", "a1value");
-
-		Map<String, String> b = new HashMap<>(a);
-		b.put("a1", "a1 edited value");
-		b.put("b1", "b1value");
-
-		System.out.println(a.get("a1"));
-		System.out.println(a.get("b1"));
-
-		System.out.println(b.get("a1"));
-		System.out.println(b.get("b1"));
-	}
+	
 
 }
