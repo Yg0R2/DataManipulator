@@ -25,12 +25,15 @@ public class ReflectUtil {
 	/**
 	 * If the given <i>value</i> is:
 	 * <ul>
-	 * <li>null, will return with the <i>defaultValue</i>.</li>
-	 * <li><code>instanceOf String<code>, get the <code>String.valueOf(value)</code> and invoke <code>valueOf</code>
-	 * method.</li>
-	 * <li>not <code>instanceOf String<code>, simply use <code>Class.forName(className).cast(value)</code></li>
+	 * <li>null and the <i>defaultValue</i> is null, will return a casted null.</li>
+	 * <li>null and the <i>defaultValue</i> is not null, the method will call itself as <code>value=defaultValue</code></li>
+	 * <li>not null, ties to invoke <code>valueOf</code> on it</li>
+	 * <li>not null and <T> is <i>Integer.class</i>, ties to invoke <code>intValue</code> on it</li>
+	 * <li>not null and <T> is <i>Long.class</i>, ties to invoke <code>longValue</code> on it</li>
+	 * <li>not null and <T> is <i>String.class</i>, ties to invoke <code>String.valueOf</code> on it</li>
+	 * <li>not null, simply use <code>Class.forName(className).cast(value)</code></li>
 	 * </ul>
-	 *
+	 * 
 	 * @param value
 	 * @param defaultValue
 	 * @return
@@ -127,6 +130,31 @@ public class ReflectUtil {
 		}
 
 		return Object.class;
+	}
+
+	/**
+	 * Based on the given <i>className</i> attribute it returns with the casted value of <i>value</i> parameter, or the
+	 * default value of the class.
+	 *
+	 * @param className
+	 * @param value
+	 * @return
+	 */
+	public static Object getValue(String className, Object value) {
+		if (className.equals(Boolean.TYPE.toString()) || className.equals(Boolean.class.getName())) {
+			return castValue(Boolean.class, value, false);
+		}
+		else if (className.equals(Double.TYPE.toString()) || className.equals(Double.class.getName())) {
+			return castValue(Double.class, value, 0d);
+		}
+		else if (className.equals(Integer.TYPE.toString()) || className.equals(Integer.class.getName())) {
+			return castValue(Integer.class, value, 0);
+		}
+		else if (className.equals(Long.TYPE.toString()) || className.equals(Long.class.getName())) {
+			return castValue(Long.class, value, 0L);
+		}
+
+		return getType(className).cast(value);
 	}
 
 }

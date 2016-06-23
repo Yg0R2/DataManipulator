@@ -28,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import yg0r2.dm.entry.DataManipulatorEntry;
-import yg0r2.dm.entry.DataManipulatorRunner;
 
 /**
  * @author Yg0R2
@@ -71,15 +70,6 @@ public class DataManipulatorController {
 		String beanId = (String) request.getParameter("beanId");
 
 		DataManipulatorEntry dme = _getDME(beanId);
-
-		dme.setEntryCount(Integer.valueOf(request.getParameter(/*beanId + */"-count")));
-		dme.setEntryUpdateCount(Integer.valueOf(request.getParameter(/*beanId + */"-edit-count")));
-
-		Map<String, Object> argsMap = new HashMap<String, Object>();
-
-		DataManipulatorRunner dmRunner = new DataManipulatorRunner(dme, argsMap);
-
-		dmRunner.run();
 
 		ModelAndView modelAndView = new ModelAndView("index");
 

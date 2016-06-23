@@ -15,6 +15,11 @@
  */
 package yg0r2.dm.liferay;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.util.Assert;
+
 import jodd.bean.BeanUtil;
 import jodd.bean.BeanUtilBean;
 
@@ -23,32 +28,56 @@ import jodd.bean.BeanUtilBean;
  */
 public class LiferayEntry {
 
-	private String _entryIdKey;
-	private String _parentEntryIdKey;
+	public static final String ENTRY_ID_KEY = "entryIdKey";
+	public static final String PARENT_ENTRY_ID_KEY = "parentEntryIdKey";
 
-	public LiferayEntry(String entryIdKey, String parentEntryIdKey) {
-		_entryIdKey = entryIdKey;
-		_parentEntryIdKey = parentEntryIdKey;
+	private Map<String, Object> _argsMap;
+
+	public LiferayEntry(Map<String, String> argsMap) {
+		if (argsMap != null) {
+			_argsMap = new HashMap<>(argsMap);
+		}
+		else {
+			_argsMap = new HashMap<>();
+		}
 	}
 
-	public String getEntryId(Object entry) {
+	public Object get(String argKey) {
+		return _argsMap.get(argKey);
+	}
+
+	public Map<String, Object> getAll() {
+		return _argsMap;
+	}
+
+	public Object getEntryId() {
+		return _argsMap.get(ENTRY_ID_KEY);
+	}
+
+	public Object getParentEntryId() {
+		return _argsMap.get(PARENT_ENTRY_ID_KEY);
+	}
+
+	public void setEntryId(Object entry) {
+		Assert.notNull(entry);
+
 		BeanUtil beanUtil = new BeanUtilBean();
 
-		return beanUtil.getProperty(entry, _entryIdKey);
+		_argsMap.put(ENTRY_ID_KEY, beanUtil.getProperty(entry, ENTRY_ID_KEY));
 	}
 
-	public String getEntryIdKey() {
-		return _entryIdKey;
-	}
+	public void setParentEntryId(Object entry) {
+		if (entry == null) {
+			return;
+		}
 
-	public String getParentEntryId(Object entry) {
 		BeanUtil beanUtil = new BeanUtilBean();
 
-		return beanUtil.getProperty(entry, _parentEntryIdKey);
+		_argsMap.put(PARENT_ENTRY_ID_KEY, beanUtil.getProperty(entry, PARENT_ENTRY_ID_KEY));
 	}
 
-	public String getParentEntryIdKey() {
-		return _parentEntryIdKey;
+	public void set(String argKey, Object argValue) {
+		_argsMap.put(argKey, argValue);
 	}
 
 }

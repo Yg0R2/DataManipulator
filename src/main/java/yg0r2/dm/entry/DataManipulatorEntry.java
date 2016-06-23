@@ -13,32 +13,19 @@
 package yg0r2.dm.entry;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import yg0r2.dm.liferay.LiferayEntry;
 import yg0r2.dm.liferay.LiferayUtilMethod;
 import yg0r2.dm.mvc.displayfield.DisplayField;
-import yg0r2.dm.util.RandomUtil;
 
 /**
  * @author Yg0R2
  */
 public class DataManipulatorEntry {
 
-	private static Logger _logger = LoggerFactory.getLogger(DataManipulatorEntry.class);
-
 	private LiferayUtilMethod _addMethod;
 	private List<DisplayField> _displayFields;
-	private int _entryCount;
-	private int _entryDepth;
-	private int _entrySubCount;
-	private int _entryUpdateCount;
 	private LiferayEntry _liferayEntry;
 	private List<DataManipulatorEntry> _subDataManipulatorEntries = new ArrayList<>(0);
 	private LiferayUtilMethod _updateMethod;
@@ -55,50 +42,10 @@ public class DataManipulatorEntry {
 	}
 
 	/**
-	 * Add a Liferay entry and returns with
-	 *
-	 * @param parentEntry if there is parent entry
-	 * @param argsMap additional parameters like: counter, updatePrefix
-	 * @return the created Liferay Entry
-	 * @throws Exception
+	 * @return the Liferay Util add method.
 	 */
-	public Object addLiferayEntry(Object parentEntry, Map<String, Object> argsMap) throws Exception {
-		if (parentEntry != null) {
-			argsMap.put(_liferayEntry.getParentEntryIdKey(), _liferayEntry.getParentEntryId(parentEntry));
-		}
-
-		while (true) {
-			argsMap.put("rndString", RandomUtil.nextString());
-
-			try {
-				return _addMethod.invoke(argsMap);
-			}
-			catch (Exception e) {
-				_checkLiferayException(e);
-			}
-		}
-	}
-
-	/**
-	 * Add child Liferay entries
-	 *
-	 * @param parentEntry parent Entry
-	 * @param depth depth of the Entries
-	 * @param argsMap additional parameters like: counter, updatePrefix
-	 * @throws Exception
-	 */
-	public void addSubLiferayEntries(Object parentEntry, int depth, Map<String, Object> argsMap) throws Exception {
-		if (depth <= 0) {
-			return;
-		}
-
-		for (int i = 0; i < getEntrySubCount(); i++) {
-			argsMap.put("counter", String.valueOf(i));
-
-			Object entry = addLiferayEntry(parentEntry, new HashMap<>(argsMap));
-
-			addSubLiferayEntries(entry, depth - 1, argsMap);
-		}
+	public LiferayUtilMethod getAddMethod() {
+		return _addMethod;
 	}
 
 	/**
@@ -109,31 +56,10 @@ public class DataManipulatorEntry {
 	}
 
 	/**
-	 * @return the entryCount
+	 * @return the Liferay Util add method.
 	 */
-	public int getEntryCount() {
-		return _entryCount;
-	}
-
-	/**
-	 * @return the entryDepth
-	 */
-	public int getEntryDepth() {
-		return _entryDepth;
-	}
-
-	/**
-	 * @return the entrySubCount
-	 */
-	public int getEntrySubCount() {
-		return _entrySubCount;
-	}
-
-	/**
-	 * @return the entryUpdateCount
-	 */
-	public int getEntryUpdateCount() {
-		return _entryUpdateCount;
+	public LiferayEntry getLiferayEntry() {
+		return _liferayEntry;
 	}
 
 	/**
@@ -151,34 +77,6 @@ public class DataManipulatorEntry {
 	}
 
 	/**
-	 * @param entryCount the entryCount to set
-	 */
-	public void setEntryCount(int entryCount) {
-		_entryCount = entryCount;
-	}
-
-	/**
-	 * @param entryDepth the entryDepth to set
-	 */
-	public void setEntryDepth(int entryDepth) {
-		_entryDepth = entryDepth;
-	}
-
-	/**
-	 * @param entrySubCount the entrySubCount to set
-	 */
-	public void setEntrySubCount(int entrySubCount) {
-		_entrySubCount = entrySubCount;
-	}
-
-	/**
-	 * @param entryUpdateCount the entryUpdateCount to set
-	 */
-	public void setEntryUpdateCount(int entryUpdateCount) {
-		_entryUpdateCount = entryUpdateCount;
-	}
-
-	/**
 	 * Set sub DataManupilatorEntries.
 	 *
 	 * @param dataManipulatorEntries
@@ -186,46 +84,6 @@ public class DataManipulatorEntry {
 	public void setSubDataManipulatorEntries(DataManipulatorEntry... dataManipulatorEntries) {
 		for (DataManipulatorEntry dme : dataManipulatorEntries) {
 			_subDataManipulatorEntries.add(dme);
-		}
-	}
-
-	/**
-	 * 
-	 * @param entry this entry will be updated
-	 * @param argsMap additional parameters like: counter, updatePrefix
-	 * @return the updated Liferay Entry
-	 * @throws Exception
-	 */
-	public Object updateLiferayEntry(Object entry, Map<String, Object> argsMap) throws Exception {
-		argsMap.put(_liferayEntry.getEntryIdKey(), _liferayEntry.getEntryId(entry));
-
-		while (true) {
-			try {
-				return _updateMethod.invoke(argsMap);
-			}
-			catch (Exception e) {
-				_checkLiferayException(e);
-
-				argsMap.put("rndString", RandomUtil.nextString());
-			}
-		}
-	}
-
-	/**
-	 * Liferay throws exceptions, and if the exception caused by a 'Duplicate entry' exception, just ignore it, and
-	 * generate a new random string fot the suffix.
-	 *
-	 * @param e
-	 * @throws Exception if the given exception is not a 'Duplicate entry' exception
-	 */
-	private void _checkLiferayException(Exception e) throws Exception {
-		String stackTrace = ExceptionUtils.getStackTrace(e);
-
-		if (stackTrace.contains("Duplicate entry")) {
-			_logger.info("Handled ;)");
-		}
-		else {
-			throw e;
 		}
 	}
 

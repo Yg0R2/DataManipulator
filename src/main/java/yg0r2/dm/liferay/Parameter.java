@@ -70,7 +70,7 @@ public final class Parameter {
 
 		_type = ReflectUtil.getType(className);
 
-		_value = _getValue(className, value);
+		_value = ReflectUtil.getValue(className, value);
 	}
 
 	/**
@@ -98,45 +98,20 @@ public final class Parameter {
 	 * For testing purpose only.<br />
 	 * Check the given instance of Parameter is equals with the current one.
 	 *
-	 * @param parameter
+	 * @param that
 	 * @return
 	 */
 	@VisibleForTesting
-	protected boolean equals(Parameter parameter) {
-		if (!Objects.equals(this.getName(), parameter.getName())) {
+	protected boolean equals(Parameter that) {
+		if (!Objects.equals(this.getName(), that.getName())) {
 			return false;
 		}
 
-		if (!Objects.equals(this.getType(), parameter.getType())) {
+		if (!Objects.equals(this.getType(), that.getType())) {
 			return false;
 		}
 
-		return Objects.equals(this.getValue(), parameter.getValue());
-	}
-
-	/**
-	 * Based on the given <i>className</i> attribute it returns with the casted value of <i>value</i> parameter, or the
-	 * default value of the class.
-	 *
-	 * @param className
-	 * @param value
-	 * @return
-	 */
-	private Object _getValue(String className, Object value) {
-		if (className.equals(Boolean.TYPE.toString()) || className.equals(Boolean.class.getName())) {
-			return ReflectUtil.castValue(Boolean.class, value, false);
-		}
-		else if (className.equals(Double.TYPE.toString()) || className.equals(Double.class.getName())) {
-			return ReflectUtil.castValue(Double.class, value, 0d);
-		}
-		else if (className.equals(Integer.TYPE.toString()) || className.equals(Integer.class.getName())) {
-			return ReflectUtil.castValue(Integer.class, value, 0);
-		}
-		else if (className.equals(Long.TYPE.toString()) || className.equals(Long.class.getName())) {
-			return ReflectUtil.castValue(Long.class, value, 0L);
-		}
-
-		return ReflectUtil.getType(className).cast(value);
+		return Objects.equals(this.getValue(), that.getValue());
 	}
 
 }

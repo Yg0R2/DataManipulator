@@ -22,7 +22,7 @@ import java.util.Random;
  */
 public class RandomUtil {
 
-	private static volatile Random _rnd = new Random();;
+	private static final Random _rnd = new Random();;
 
 	public static int nextInt() {
 		return _rnd.nextInt();

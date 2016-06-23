@@ -43,7 +43,6 @@ public class LiferayUtilMethod {
 	 */
 	@SuppressWarnings("unchecked")
 	public LiferayUtilMethod(String utilClassName, String methodName, Map<String, String>... parameters) {
-
 		_parameters = new ArrayList<>();
 
 		for (Map<String, String> parameter : parameters) {
