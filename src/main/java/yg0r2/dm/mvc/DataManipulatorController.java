@@ -12,16 +12,11 @@
  */
 package yg0r2.dm.mvc;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,22 +30,6 @@ import yg0r2.dm.entry.DataManipulatorEntry;
 @Controller
 @RequestMapping("/")
 public class DataManipulatorController {
-
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView selectBean() {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("liferay-6.0.12-bean.xml");
-
-		String[] beanIds = context.getBeanNamesForType(DataManipulatorEntry.class);
-
-		context.close();
-
-		ModelAndView modelAndView = new ModelAndView("navigation");
-
-		modelAndView.addObject("beanIds", beanIds);
-		modelAndView.addObject("command", "");
-
-		return modelAndView;
-	}
 
 	@RequestMapping(value = "/1", method = RequestMethod.GET)
 	public ModelAndView entryCount(@RequestParam(value = "beanId", required = true) String beanId) throws Exception {
@@ -74,6 +53,22 @@ public class DataManipulatorController {
 		ModelAndView modelAndView = new ModelAndView("index");
 
 		modelAndView.addObject("command", dme.getDisplayFields());
+
+		return modelAndView;
+	}
+
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView selectBean() {
+		AbstractApplicationContext context = new ClassPathXmlApplicationContext("liferay-6.0.12-bean.xml");
+
+		String[] beanIds = context.getBeanNamesForType(DataManipulatorEntry.class);
+
+		context.close();
+
+		ModelAndView modelAndView = new ModelAndView("navigation");
+
+		modelAndView.addObject("beanIds", beanIds);
+		modelAndView.addObject("command", "");
 
 		return modelAndView;
 	}

@@ -17,6 +17,6 @@ package yg0r2.dm.mvc.displayfield;
  */
 public enum FieldType {
 
-	FILE, INPUT, LABEL, MULTI_SELECT, TIME, SELECT, SEPARATOR
+	FILE, INPUT, LABEL, MULTI_SELECT, SELECT, SEPARATOR, TIME
 
 }

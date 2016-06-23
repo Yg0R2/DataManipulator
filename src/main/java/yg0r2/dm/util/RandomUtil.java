@@ -22,7 +22,14 @@ import java.util.Random;
  */
 public final class RandomUtil {
 
-	private static final Random _rnd = new Random();;
+	private static final char[] _ALLOWED_DIGITS = {
+		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+		'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b',
+		'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+		'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+	};;
+
+	private static final Random _rnd = new Random();
 
 	public static int nextInt() {
 		return _rnd.nextInt();
@@ -35,11 +42,11 @@ public final class RandomUtil {
 
 		return _rnd.nextInt(max);
 	}
-
+ 
 	public static int nextInt(int min, int max) {
 		return _rnd.nextInt(max - min) + min;
 	}
- 
+
 	public static String nextString() {
 		return nextString(12);
 	}
@@ -55,12 +62,5 @@ public final class RandomUtil {
 
 		return sb.toString();
 	}
-
-	private static final char[] _ALLOWED_DIGITS = {
-		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
-		'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b',
-		'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-		'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-	};
  
 }

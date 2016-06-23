@@ -5,7 +5,7 @@
 <%@ page import="yg0r2.dm.mvc.displayfield.DisplayField"%>
 <%@ page import="yg0r2.dm.util.JspUtil"%>
 
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%
 	String actionUrl = "/DataManipulator/2?beanId=" + request.getAttribute("beanId");
 %>

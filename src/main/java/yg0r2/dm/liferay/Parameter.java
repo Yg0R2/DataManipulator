@@ -42,23 +42,23 @@ public final class Parameter {
 	 * Create an instance of Parameter with the given parameters.
 	 *
 	 * @param name
-	 * @param className
-	 * @throws ClassNotFoundException 
-	 */
-	public Parameter(String name, String className) throws ClassNotFoundException {
-		this(name, className, null);
-	}
-
-	/**
-	 * Create an instance of Parameter with the given parameters.
-	 *
-	 * @param name
 	 * @param clazz
 	 * @param value
 	 * @throws ClassNotFoundException 
 	 */
 	public Parameter(String name, Class<?> clazz, Object value) throws ClassNotFoundException {
 		this(name, clazz.getName(), value);
+	}
+
+	/**
+	 * Create an instance of Parameter with the given parameters.
+	 *
+	 * @param name
+	 * @param className
+	 * @throws ClassNotFoundException 
+	 */
+	public Parameter(String name, String className) throws ClassNotFoundException {
+		this(name, className, null);
 	}
 
 	/**
@@ -107,11 +107,11 @@ public final class Parameter {
 	 */
 	@VisibleForTesting
 	protected boolean equals(Parameter that) {
-		if (!Objects.equals(this.getName(), that.getName())) {
+		if (!this.getName().equals(that.getName())) {
 			return false;
 		}
 
-		if (!Objects.equals(this.getType(), that.getType())) {
+		if (!this.getType().equals(that.getType())) {
 			return false;
 		}
 

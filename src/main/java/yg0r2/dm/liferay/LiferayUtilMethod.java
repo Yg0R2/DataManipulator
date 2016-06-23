@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.Assert;
+
 import com.google.common.annotations.VisibleForTesting;
 
 import jodd.util.StringTemplateParser;
@@ -30,9 +32,9 @@ import yg0r2.dm.util.resolver.MacroMapResolver;
  */
 public final class LiferayUtilMethod {
 
-	private String _utilClassName;
 	private String _methodName;
 	private List<Parameter> _parameters;
+	private String _utilClassName;
 
 	/**
 	 * Create a new LiferayUtilMethod instance
@@ -50,9 +52,26 @@ public final class LiferayUtilMethod {
 	}
 
 	/**
+	 * Invoke the Lifera util method.
+	 * 
+	 * @param presetParameters the preset values, what you would like to use instead of the default ones.
+	 * @return with the object, what the Lifera util method creates.
+	 * @throws Exception If something goes wrong, exception can be thrown.
+	 */
+	public Object invoke(Map<String, Object> presetParameters) throws Exception {
+		Assert.notNull(presetParameters);
+
+		Class<?> utilClass = Class.forName(_utilClassName);
+
+		Method method = utilClass.getMethod(_methodName, getParameterTypes());
+
+		return method.invoke(null, getParameterValues(presetParameters));
+	}
+
+	/**
 	 * @return the parameter names of the Liferay util method.
 	 */
-	public String[] getParameterNames() {
+	protected String[] getParameterNames() {
 		List<String> names = new ArrayList<>(_parameters.size());
 
 		_parameters.forEach(p -> {
@@ -63,9 +82,20 @@ public final class LiferayUtilMethod {
 	}
 
 	/**
+	 * <b>ONLY FOR TESTING PURPOSE!</b><br />
+	 * Never use this method in other places.
+	 *
+	 * @return
+	 */
+	@VisibleForTesting
+	protected List<Parameter> getParameters() {
+		return _parameters;
+	}
+
+	/**
 	 * @return the parameter types of the Liferay util method.
 	 */
-	public Class<?>[] getParameterTypes() {
+	protected Class<?>[] getParameterTypes() {
 		List<Class<?>> types = new ArrayList<>(_parameters.size());
 
 		_parameters.forEach(p -> {
@@ -79,7 +109,7 @@ public final class LiferayUtilMethod {
 	 * @param presetParameters the preset values, what you would like to use instead of the default ones.
 	 * @return an array of the parameters, which are required for the Liferay util method.
 	 */
-	public Object[] getParameterValues(Map<String, Object> presetParameters) {
+	protected Object[] getParameterValues(Map<String, Object> presetParameters) {
 		List<Object> values = new ArrayList<>(_parameters.size());
 
 		StringTemplateParser templateParser = new StringTemplateParser();
@@ -106,32 +136,6 @@ public final class LiferayUtilMethod {
 		}
 
 		return values.toArray(new Object[values.size()]);
-	}
-
-	/**
-	 * Invoke the Lifera util method.
-	 * 
-	 * @param presetParameters the preset values, what you would like to use instead of the default ones.
-	 * @return with the object, what the Lifera util method creates.
-	 * @throws Exception If something goes wrong, exception can be thrown.
-	 */
-	public Object invoke(Map<String, Object> presetParameters) throws Exception {
-		Class<?> utilClass = Class.forName(_utilClassName);
-
-		Method method = utilClass.getMethod(_methodName, getParameterTypes());
-
-		return method.invoke(null, getParameterValues(presetParameters));
-	}
-
-	/**
-	 * <b>ONLY FOR TESTING PURPOSE!</b><br />
-	 * Never use this method in other places.
-	 *
-	 * @return
-	 */
-	@VisibleForTesting
-	protected List<Parameter> getParameters() {
-		return _parameters;
 	}
 
 }

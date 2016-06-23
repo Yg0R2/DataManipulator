@@ -44,17 +44,17 @@ public final class Pair<K, V> {
 	}
 
 	/**
-	 * @param key the key to set
-	 */
-	public void set_key(K key) {
-		this._key = key;
-	}
-
-	/**
 	 * @return the value
 	 */
 	public V getValue() {
 		return _value;
+	}
+
+	/**
+	 * @param key the key to set
+	 */
+	public void set_key(K key) {
+		this._key = key;
 	}
 
 	/**

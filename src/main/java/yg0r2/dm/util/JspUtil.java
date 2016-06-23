@@ -70,14 +70,16 @@ public final class JspUtil {
 		return sb.toString();
 	}
 
-	public static String getSelectOptions(String[] keyValueArray) {
-		StringBuilder sb = new StringBuilder(keyValueArray.length);
+	public static StringBuilder getSelectOption(String label, String value) {
+		StringBuilder sb = new StringBuilder(5);
 
-		for (String keyValue : keyValueArray) {
-			sb.append(getSelectOption(keyValue, keyValue));
-		}
+		sb.append("<option value='");
+		sb.append(value);
+		sb.append("'>");
+		sb.append(label);
+		sb.append("</option>");
 
-		return sb.toString();
+		return sb;
 	}
 
 	public static String getSelectOptions(List<Pair<String, String>> pairs) {
@@ -90,16 +92,14 @@ public final class JspUtil {
 		return sb.toString();
 	}
 
-	public static StringBuilder getSelectOption(String label, String value) {
-		StringBuilder sb = new StringBuilder(5);
+	public static String getSelectOptions(String[] keyValueArray) {
+		StringBuilder sb = new StringBuilder(keyValueArray.length);
 
-		sb.append("<option value='");
-		sb.append(value);
-		sb.append("'>");
-		sb.append(label);
-		sb.append("</option>");
+		for (String keyValue : keyValueArray) {
+			sb.append(getSelectOption(keyValue, keyValue));
+		}
 
-		return sb;
+		return sb.toString();
 	}
 
 	private static StringBuilder _getWrappedField(String label, Map<String, Object> fieldMap) {

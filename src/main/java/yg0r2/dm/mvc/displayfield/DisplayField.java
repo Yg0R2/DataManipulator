@@ -21,9 +21,9 @@ import yg0r2.dm.util.Pair;
  */
 public final class DisplayField {
 
+	private FieldType _fieldType;
 	private String _id;
 	private boolean _required;
-	private FieldType _fieldType;
 	private Object _value;
 	private boolean _visible;
 

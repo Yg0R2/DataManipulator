@@ -21,7 +21,7 @@
 					<constructor-arg name="id" value="blog-entry-count" />
 				</bean>
 				<bean parent="defaultCountBean">
-					<constructor-arg name="id" value="blog-entry-edit-count" />
+					<constructor-arg name="id" value="blog-entry-updateCount" />
 				</bean>
 			</list>
 		</constructor-arg>

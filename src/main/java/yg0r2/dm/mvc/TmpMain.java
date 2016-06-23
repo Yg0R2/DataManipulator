@@ -15,12 +15,21 @@
  */
 package yg0r2.dm.mvc;
 
+import static org.mockito.Mockito.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import jodd.bean.BeanUtil;
+import jodd.bean.BeanUtilBean;
+import yg0r2.dm.DataManipulatorRunnable;
 import yg0r2.dm.entry.DataManipulatorEntry;
-import yg0r2.dm.liferay.LiferayEntryKey;
-import yg0r2.dm.util.ReflectUtil;
+import yg0r2.dm.util.RandomUtil;
 
 /**
  * @author Yg0R2
@@ -37,10 +46,31 @@ public class TmpMain {
 		DataManipulatorEntry dme = context.getBean(beanId, DataManipulatorEntry.class);
 		context.close();
 
-		System.out.println(dme);
-		System.out.println(dme.getAddMethod().getParameterNames());
+		HttpServletRequest request = mock(HttpServletRequest.class);
+		when(request.getParameter(anyString())).thenReturn("");
+		when(request.getParameter("blog-entry-count")).thenReturn("1");
+		when(request.getParameter("blog-entry-updateCount")).thenReturn("2");
+		when(request.getParameter("blog-entry-depth")).thenReturn("3");
+		when(request.getParameter("blog-entry-subCount")).thenReturn("4");
 
-		System.out.println(dme.getEntrySpecificArgs().get(LiferayEntryKey.ENTRY_ID_KEY));
+		when(request.getParameter("blog-entry1-count")).thenReturn("1");
+		when(request.getParameter("blog-entry1-updateCount")).thenReturn("2");
+
+		DataManipulatorRunnable runnabele = new DataManipulatorRunnable(dme, request);
+
+		runnabele.run();
+
+		/*System.out.println(dme);
+
+		Map<String, Object> args2 = new HashMap<>();
+		args2.put("counter", "1");
+		args2.put("rndString", RandomUtil.nextString());
+
+		Object obj = dme.getAddMethod().invoke(args2);
+
+		BeanUtil beanUtil = new BeanUtilBean();
+
+		System.out.println((String) beanUtil.getProperty(obj, "title"));*/
 	}
 
 }
