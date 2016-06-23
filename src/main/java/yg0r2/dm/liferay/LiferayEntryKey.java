@@ -13,22 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package yg0r2.dm.util;
+package yg0r2.dm.liferay;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Yg0R2
  */
-public final class RequestUtil {
+public final class LiferayEntryKey {
 
-	public static Integer getIntParameter(HttpServletRequest request, String key) {
-		try {
-			return Integer.valueOf(request.getParameter(key));
-		}
-		catch (Exception e) {
-			return 0;
-		}
-	}
+	public static final String ENTRY_ID_KEY = "entryIdKey";
+
+	public static final String PARENT_ENTRY_ID_KEY = "parentEntryIdKey";
 
 }

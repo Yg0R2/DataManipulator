@@ -25,7 +25,7 @@ import org.junit.Test;
 public class ReflectUtilTest {
 
 	@Test
-	public void castArrayTest() {
+	public void castArrayTest() throws ClassNotFoundException {
 		Object[] objectArray = new Object[] { true, "false", 1, 1D, 1L };
 
 		assertArrayEquals(objectArray, ReflectUtil.castValue(Object[].class, objectArray, null));
@@ -36,7 +36,7 @@ public class ReflectUtilTest {
 	}
 
 	@Test
-	public void castBooleanTest() {
+	public void castBooleanTest() throws ClassNotFoundException {
 		assertEquals(false, ReflectUtil.castValue(Boolean.class, "false", null));
 
 		assertEquals(false, ReflectUtil.castValue(Boolean.class, 1, null));
@@ -53,7 +53,7 @@ public class ReflectUtilTest {
 	}
 
 	@Test
-	public void castDoubleTest() {
+	public void castDoubleTest() throws ClassNotFoundException {
 		assertEquals(Double.valueOf(123), ReflectUtil.castValue(Double.class, "123", null));
 		assertEquals(Double.valueOf(123), ReflectUtil.castValue(Double.class, "123D", null));
 		// assertEquals(Double.valueOf(123), ReflectUtil.castValue(Double.class, "123L", null));
@@ -74,7 +74,7 @@ public class ReflectUtilTest {
 	}
 
 	@Test
-	public void castIntegerTest() {
+	public void castIntegerTest() throws ClassNotFoundException {
 		assertEquals(123, ReflectUtil.castValue(Integer.class, "123", null));
 
 		assertEquals(123, ReflectUtil.castValue(Integer.class, 123, null));
@@ -93,7 +93,7 @@ public class ReflectUtilTest {
 	}
 
 	@Test
-	public void castListTest() {
+	public void castListTest() throws ClassNotFoundException {
 		List<Object> objectList = Arrays.asList(true, "false", 1, 1D, 1L);
 
 		assertEquals(objectList, ReflectUtil.castValue(List.class, objectList, null));
@@ -104,7 +104,7 @@ public class ReflectUtilTest {
 	}
 
 	@Test
-	public void castLongTest() {
+	public void castLongTest() throws ClassNotFoundException {
 		assertEquals(Long.valueOf(123), ReflectUtil.castValue(Long.class, "123", null));
 
 		assertEquals(Long.valueOf(123), ReflectUtil.castValue(Long.class, 123, null));
@@ -123,7 +123,7 @@ public class ReflectUtilTest {
 	}
 
 	@Test
-	public void castStingTest() {
+	public void castStingTest() throws ClassNotFoundException {
 		assertEquals("123", ReflectUtil.castValue(String.class, "123", null));
 
 		assertEquals("123", ReflectUtil.castValue(String.class, 123, null));
@@ -142,7 +142,7 @@ public class ReflectUtilTest {
 	}
 
 	@Test
-	public void getTypeTest() {
+	public void getTypeTest() throws ClassNotFoundException {
 		assertEquals(Boolean.class, ReflectUtil.getType(Boolean.class.getName()));
 		assertEquals(boolean.class, ReflectUtil.getType("boolean"));
 

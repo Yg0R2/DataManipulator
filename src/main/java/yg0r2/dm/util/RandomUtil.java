@@ -20,7 +20,7 @@ import java.util.Random;
 /**
  * @author Yg0R2
  */
-public class RandomUtil {
+public final class RandomUtil {
 
 	private static final Random _rnd = new Random();;
 

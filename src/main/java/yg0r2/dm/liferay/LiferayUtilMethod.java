@@ -23,12 +23,12 @@ import jodd.util.StringTemplateParser;
 import yg0r2.dm.util.resolver.MacroMapResolver;
 
 /**
- * This class represents a Liferay [Local]ServiceUtil. With this, DataManipulator can call a method from a Liferay util
+ * This class represents a Liferay *[Local]ServiceUtil. With this, DataManipulator can call a method from a Liferay util
  * class.
  *
  * @author Yg0R2
  */
-public class LiferayUtilMethod {
+public final class LiferayUtilMethod {
 
 	private String _utilClassName;
 	private String _methodName;
@@ -41,17 +41,8 @@ public class LiferayUtilMethod {
 	 * @param methodName
 	 * @param parameters
 	 */
-	@SuppressWarnings("unchecked")
-	public LiferayUtilMethod(String utilClassName, String methodName, Map<String, String>... parameters) {
-		_parameters = new ArrayList<>();
-
-		for (Map<String, String> parameter : parameters) {
-			if (parameter.isEmpty()) {
-				continue;
-			}
-
-			_parameters.add(new Parameter(parameter.get("name"), parameter.get("type"), parameter.get("value")));
-		}
+	public LiferayUtilMethod(String utilClassName, String methodName, List<Parameter> parameters) {
+		_parameters = parameters;
 
 		_utilClassName = utilClassName;
 

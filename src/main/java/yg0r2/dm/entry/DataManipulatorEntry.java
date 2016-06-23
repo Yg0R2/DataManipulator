@@ -13,29 +13,45 @@
 package yg0r2.dm.entry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import yg0r2.dm.liferay.LiferayEntry;
 import yg0r2.dm.liferay.LiferayUtilMethod;
 import yg0r2.dm.mvc.displayfield.DisplayField;
+import yg0r2.dm.util.ReflectUtil;
 
 /**
  * @author Yg0R2
  */
-public class DataManipulatorEntry {
+public final class DataManipulatorEntry {
 
 	private LiferayUtilMethod _addMethod;
 	private List<DisplayField> _displayFields;
-	private LiferayEntry _liferayEntry;
+	private Map<String, String> _entrySpecificArgs = new HashMap<>(2);
 	private List<DataManipulatorEntry> _subDataManipulatorEntries = new ArrayList<>(0);
 	private LiferayUtilMethod _updateMethod;
 
-	public DataManipulatorEntry(List<DisplayField> displayFields, LiferayEntry liferayEntry,
+	public DataManipulatorEntry(List<DisplayField> displayFields, Map<String, String> entrySpecificArgs,
 		LiferayUtilMethod addMethod, LiferayUtilMethod updateMethod) {
 
 		_displayFields = displayFields;
 
-		_liferayEntry = liferayEntry;
+		entrySpecificArgs.forEach((key, value) -> {
+			try {
+				int period = key.lastIndexOf(".");
+
+				Class<?> clazz = ReflectUtil.getType(key.substring(0, period));
+				String fieldName = key.substring(period + 1);
+
+				key = (String) clazz.getDeclaredField(fieldName).get(null);
+			}
+			catch (Exception e) {
+				// Ignore, key is not a class.field
+			}
+
+			_entrySpecificArgs.put(key, value);
+		});
 
 		_addMethod = addMethod;
 		_updateMethod = updateMethod;
@@ -56,10 +72,10 @@ public class DataManipulatorEntry {
 	}
 
 	/**
-	 * @return the Liferay Util add method.
+	 * @return the Liferay Entry specific arguments.
 	 */
-	public LiferayEntry getLiferayEntry() {
-		return _liferayEntry;
+	public Map<String, String> getEntrySpecificArgs() {
+		return _entrySpecificArgs;
 	}
 
 	/**

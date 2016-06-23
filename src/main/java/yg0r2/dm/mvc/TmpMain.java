@@ -19,7 +19,8 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import yg0r2.dm.entry.DataManipulatorEntry;
-import yg0r2.dm.liferay.LiferayEntry;
+import yg0r2.dm.liferay.LiferayEntryKey;
+import yg0r2.dm.util.ReflectUtil;
 
 /**
  * @author Yg0R2
@@ -29,7 +30,7 @@ public class TmpMain {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		String beanId = "blog-entry";
 
 		AbstractApplicationContext context = new ClassPathXmlApplicationContext("liferay-6.0.12-bean.xml");
@@ -37,7 +38,9 @@ public class TmpMain {
 		context.close();
 
 		System.out.println(dme);
-		System.out.println(dme.getLiferayEntry().get(LiferayEntry.ENTRY_ID_KEY));
+		System.out.println(dme.getAddMethod().getParameterNames());
+
+		System.out.println(dme.getEntrySpecificArgs().get(LiferayEntryKey.ENTRY_ID_KEY));
 	}
 
 }

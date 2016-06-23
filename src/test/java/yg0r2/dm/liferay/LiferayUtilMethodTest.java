@@ -31,32 +31,22 @@ import yg0r2.dm.liferay.Parameter;
  */
 public class LiferayUtilMethodTest {
 
-	private List<Parameter> _defaultList;
-	private Map<String, String>[] _defaultParameters;
+	private List<Parameter> _defaultParameters;
 
 	@Before
-	@SuppressWarnings("unchecked")
-	public void init() {
-		_defaultList = new ArrayList<>();
-		_defaultList.add(new Parameter("title", "java.lang.String"));
-		_defaultList.add(new Parameter("title2", "java.lang.String", "TitleValue"));
-		_defaultList.add(new Parameter("id", "long"));
-		_defaultList.add(new Parameter("id2", "long", "1234"));
-
-		List<Map<String, String>> defaultParameters = new ArrayList<>();
-		defaultParameters.add(_getMap("title", "java.lang.String", null));
-		defaultParameters.add(_getMap("title2", "java.lang.String", "TitleValue"));
-		defaultParameters.add(_getMap("id", "long", null));
-		defaultParameters.add(_getMap("id2", "long", "1234"));
-
-		_defaultParameters = defaultParameters.toArray((Map<String, String>[]) new Map[defaultParameters.size()]);
+	public void init() throws ClassNotFoundException {
+		_defaultParameters = new ArrayList<>();
+		_defaultParameters.add(new Parameter("title", "java.lang.String"));
+		_defaultParameters.add(new Parameter("title2", "java.lang.String", "TitleValue"));
+		_defaultParameters.add(new Parameter("id", "long"));
+		_defaultParameters.add(new Parameter("id2", "long", "1234"));
 	}
 
 	@Test
 	public void constructorTest() {
 		LiferayUtilMethod liferayUtilMethod = new LiferayUtilMethod(null, null, _defaultParameters);
 
-		assertTrue(_isEqual(_defaultList, liferayUtilMethod.getParameters()));
+		assertTrue(_isEqual(_defaultParameters, liferayUtilMethod.getParameters()));
 	}
 
 	@Test
@@ -100,26 +90,16 @@ public class LiferayUtilMethodTest {
 	}
 
 	@Test
-	@SuppressWarnings({ "unchecked", "static-access" })
+	@SuppressWarnings("static-access")
 	public void invokeTest() throws Exception {
-		TestMockUtilClass testMockUtilClass = mock(TestMockUtilClass.class);
+		MockLiferayUtilMethod testMockUtilClass = mock(MockLiferayUtilMethod.class);
 
-		LiferayUtilMethod liferayUtilMethod = new LiferayUtilMethod(TestMockUtilClass.class.getName(), "addEntry",
-			new HashMap<>());
+		LiferayUtilMethod liferayUtilMethod = new LiferayUtilMethod(MockLiferayUtilMethod.class.getName(), "addEntry",
+			new ArrayList<>(0));
 
 		liferayUtilMethod.invoke(null);
 
 		verify(testMockUtilClass, times(1)).addEntry();
-	}
-
-	private static Map<String, String> _getMap(String name, String type, String value) {
-		Map<String, String> map = new HashMap<>(3);
-
-		map.put("name", name);
-		map.put("type", type);
-		map.put("value", value);
-
-		return map;
 	}
 
 	private static boolean _isEqual(List<Parameter> list1, List<Parameter> list2) {
@@ -144,14 +124,6 @@ public class LiferayUtilMethodTest {
 		}
 
 		return true;
-	}
-
-}
-
-class TestMockUtilClass {
-
-	public static void addEntry() {
-		// Mocked method
 	}
 
 }

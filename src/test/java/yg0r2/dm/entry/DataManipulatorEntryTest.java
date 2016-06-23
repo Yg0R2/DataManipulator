@@ -12,44 +12,65 @@
  */
 package yg0r2.dm.entry;
 
-import static org.mockito.Mockito.mock;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import yg0r2.dm.liferay.LiferayEntry;
+import yg0r2.dm.liferay.LiferayEntryKey;
 import yg0r2.dm.liferay.LiferayUtilMethod;
+import yg0r2.dm.liferay.MockLiferayUtilMethod;
+import yg0r2.dm.liferay.Parameter;
 import yg0r2.dm.mvc.displayfield.DisplayField;
+import yg0r2.dm.mvc.displayfield.FieldType;
 
 /**
  * @author Yg0R2
  */
 public class DataManipulatorEntryTest {
 
-	private DataManipulatorEntry _dataManipulatorEntry;
-	private LiferayUtilMethod _mockAddMethod = mock(LiferayUtilMethod.class);
-	private List<DisplayField> _mockDisplayField = new ArrayList<>();
-	private LiferayEntry _mockLiferayEntry = mock(LiferayEntry.class);
-	private LiferayUtilMethod _mockUpdateMethod = mock(LiferayUtilMethod.class);
+	@Test
+	public void constructorTest() throws ClassNotFoundException {
+		LiferayUtilMethod addMethod = new LiferayUtilMethod(MockLiferayUtilMethod.class.getName(), "addEntry",
+			new ArrayList<>());
 
-	@Before
-	public void beforeTest() {
-		_dataManipulatorEntry = new DataManipulatorEntry(_mockDisplayField, _mockLiferayEntry, _mockAddMethod,
-			_mockUpdateMethod);
+		List<DisplayField> displayField = new ArrayList<>();
+		displayField.add(new DisplayField("fieldId", FieldType.INPUT, "defaultValue"));
+
+		List<Parameter> updateParameters = new ArrayList<>();
+		updateParameters.add(new Parameter("entry", Object.class, null));
+		updateParameters.add(new Parameter(LiferayEntryKey.ENTRY_ID_KEY, long.class));
+
+		LiferayUtilMethod updateMethod = new LiferayUtilMethod(MockLiferayUtilMethod.class.getName(), "updateEntry",
+			updateParameters);
+
+		DataManipulatorEntry dataManipulatorEntry = new DataManipulatorEntry(displayField, new HashMap<>(), addMethod,
+			updateMethod);
+
+		assertEquals(addMethod, dataManipulatorEntry.getAddMethod());
+		assertEquals(displayField, dataManipulatorEntry.getDisplayFields());
+		assertEquals(new HashMap<>(), dataManipulatorEntry.getEntrySpecificArgs());
+		assertEquals(updateMethod, dataManipulatorEntry.getUpdateMethod());
+
+		assertEquals(new ArrayList<>(), dataManipulatorEntry.getSubDataManipulatorEntries());
 	}
 
 	@Test
-	public void constructorTest() {
-		assertEquals(_mockAddMethod, _dataManipulatorEntry.getAddMethod());
-		assertEquals(_mockDisplayField, _dataManipulatorEntry.getDisplayFields());
-		assertEquals(_mockLiferayEntry, _dataManipulatorEntry.getLiferayEntry());
-		assertEquals(_mockUpdateMethod, _dataManipulatorEntry.getUpdateMethod());
+	public void getEntrySpecificArgsTest() {
+		Map<String, String> args = new HashMap<>();
+		args.put("userId", "12345");
+		args.put(LiferayEntryKey.class.getName() + ".ENTRY_ID_KEY", "123");
+		args.put(LiferayEntryKey.PARENT_ENTRY_ID_KEY, "2345");
 
-		assertEquals(new ArrayList<>(), _dataManipulatorEntry.getSubDataManipulatorEntries());
+		DataManipulatorEntry dmEntry = new DataManipulatorEntry(null, args, null, null);
+
+		assertEquals("12345", dmEntry.getEntrySpecificArgs().get("userId"));
+		assertEquals("123", dmEntry.getEntrySpecificArgs().get(LiferayEntryKey.ENTRY_ID_KEY));
+		assertEquals("2345", dmEntry.getEntrySpecificArgs().get(LiferayEntryKey.PARENT_ENTRY_ID_KEY));
 	}
 
 }

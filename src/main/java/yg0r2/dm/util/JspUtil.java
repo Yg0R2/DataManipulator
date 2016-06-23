@@ -24,7 +24,7 @@ import yg0r2.dm.util.resolver.MacroMapResolver;
 /**
  * @author Yg0R2
  */
-public class JspUtil {
+public final class JspUtil {
 
 	protected static final String FIELD_TEMPLATE = "<${fieldType} ${idAttribute} ${requiredAttribute} ${typeAttribute} ${extraAttribute} ${valueAttribute}>${innerHTML}</${fieldType}>";
 
@@ -80,11 +80,11 @@ public class JspUtil {
 		return sb.toString();
 	}
 
-	public static String getSelectOptions(List<Pair<String, String>> keyValuePairs) {
-		StringBuilder sb = new StringBuilder(keyValuePairs.size());
+	public static String getSelectOptions(List<Pair<String, String>> pairs) {
+		StringBuilder sb = new StringBuilder(pairs.size());
 
-		for (Pair<String, String> keyValuePair : keyValuePairs) {
-			sb.append(getSelectOption(keyValuePair.getKey(), keyValuePair.getValue()));
+		for (Pair<String, String> pair : pairs) {
+			sb.append(getSelectOption(pair.getKey(), pair.getValue()));
 		}
 
 		return sb.toString();

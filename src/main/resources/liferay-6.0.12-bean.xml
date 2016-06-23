@@ -25,14 +25,10 @@
 				</bean>
 			</list>
 		</constructor-arg>
-		<constructor-arg index="1">
-			<bean class="yg0r2.dm.liferay.LiferayEntry">
-				<constructor-arg>
-					<map>
-						<entry key="yg0r2.dm.liferay.LiferayEntry.ENTRY_ID_KEY" value="entryId" />
-					</map>
-				</constructor-arg>
-			</bean>
+		<constructor-arg index="1" name="entrySpecificArgs">
+			<map>
+				<entry key="yg0r2.dm.liferay.LiferayEntryKey.ENTRY_ID_KEY" value="entryId" />
+			</map>
 		</constructor-arg>
 		<constructor-arg index="2" name="addMethod">
 			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
@@ -40,21 +36,16 @@
 				<constructor-arg name="methodName" value="addEntry" />
 				<constructor-arg name="parameters">
 					<list>
-						<map>
-							<entry key="name" value="title" />
-							<entry key="type" value="java.lang.String" />
-							<entry key="value" value="${updatePrefix}${counter}. Blog Entry Title - ${rndString}" />
-						</map>
-						<map>
-							<entry key="name" value="content" />
-							<entry key="type" value="java.lang.String" />
-							<entry key="value" value="${updatePrefix}${counter}. Blog Entry Content - ${rndString}" />
-						</map>
-						<!--map>
-							<entry key="name" value="userId" />
-							<entry key="type" value="long" />
-							<entry key="value" value="1234" />
-						</map-->
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="title" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${counter}. Blog Entry Title - ${rndString}" />
+						</bean>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="content" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${counter}. Blog Entry Content - ${rndString}" />
+						</bean>
 					</list>
 				</constructor-arg>
 			</bean>
@@ -65,26 +56,21 @@
 				<constructor-arg name="methodName" value="updateEntry" />
 				<constructor-arg name="parameters">
 					<list>
-						<map>
-							<entry key="name" value="entryId" />
-							<entry key="type" value="long" />
-							<entry key="value" value="1" />
-						</map>
-						<map>
-							<entry key="name" value="editedTitle" />
-							<entry key="type" value="java.lang.String" />
-							<entry key="value" value="EditedTitleValue" />
-						</map>
-						<map>
-							<entry key="name" value="editedContent" />
-							<entry key="type" value="java.lang.String" />
-							<entry key="value" value="EditedContentValue" />
-						</map>
-						<!--map>
-							<entry key="name" value="userId" />
-							<entry key="type" value="long" />
-							<entry key="value" value="1234" />
-						</map-->
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="entryId" />
+							<constructor-arg name="className" value="long" />
+							<constructor-arg name="value" value="1" />
+						</bean>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="editedTitle" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Blog Entry Title - ${rndString}" />
+						</bean>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="editedContent" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Blog Entry Content - ${rndString}" />
+						</bean>
 					</list>
 				</constructor-arg>
 			</bean>

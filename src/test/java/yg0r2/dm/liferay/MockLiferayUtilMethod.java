@@ -13,22 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package yg0r2.dm.util;
+package yg0r2.dm.liferay;
 
-import javax.servlet.http.HttpServletRequest;
+import com.google.common.annotations.VisibleForTesting;
 
 /**
+ * This class is for testing purpose only.<br />
+ * It represents a Liferay <b>*[Local]ServiceUtil</b> class.
+ *
  * @author Yg0R2
  */
-public final class RequestUtil {
+@VisibleForTesting
+public class MockLiferayUtilMethod {
 
-	public static Integer getIntParameter(HttpServletRequest request, String key) {
-		try {
-			return Integer.valueOf(request.getParameter(key));
-		}
-		catch (Exception e) {
-			return 0;
-		}
+	/**
+	 * Like an addEntry method of a Liferay <b>*[Local]ServiceUtil</b> class.
+	 *
+	 * @return
+	 */
+	public static Object addEntry() {
+		return null;
+	}
+
+	/**
+	 * Like an updateEntry method of a Liferay <b>*[Local]ServiceUtil</b> class.
+	 *
+	 * @param entry
+	 * @return
+	 */
+	public static Object updateEntry(Object entry) {
+		return entry;
 	}
 
 }

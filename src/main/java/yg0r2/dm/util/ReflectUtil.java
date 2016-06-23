@@ -12,21 +12,17 @@
  */
 package yg0r2.dm.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author Yg0R2
  */
-public class ReflectUtil {
-
-	private static Logger _logger = LoggerFactory.getLogger(ReflectUtil.class);
+public final class ReflectUtil {
 
 	/**
 	 * If the given <i>value</i> is:
 	 * <ul>
 	 * <li>null and the <i>defaultValue</i> is null, will return a casted null.</li>
-	 * <li>null and the <i>defaultValue</i> is not null, the method will call itself as <code>value=defaultValue</code></li>
+	 * <li>null and the <i>defaultValue</i> is not null, the method will call itself as <code>value=defaultValue</code>
+	 * </li>
 	 * <li>not null, ties to invoke <code>valueOf</code> on it</li>
 	 * <li>not null and <T> is <i>Integer.class</i>, ties to invoke <code>intValue</code> on it</li>
 	 * <li>not null and <T> is <i>Long.class</i>, ties to invoke <code>longValue</code> on it</li>
@@ -37,9 +33,10 @@ public class ReflectUtil {
 	 * @param value
 	 * @param defaultValue
 	 * @return
+	 * @throws ClassNotFoundException
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T> T castValue(Class<T> clazz, Object value, Object defaultValue) {
+	public static <T> T castValue(Class<T> clazz, Object value, Object defaultValue) throws ClassNotFoundException {
 		if ((value == null) && (defaultValue == null)) {
 			return (T) null;
 		}
@@ -95,8 +92,9 @@ public class ReflectUtil {
 	 * 
 	 * @param className
 	 * @return
+	 * @throws ClassNotFoundException
 	 */
-	public static Class<?> getType(String className) {
+	public static Class<?> getType(String className) throws ClassNotFoundException {
 		if (className.equals(Boolean.TYPE.toString())) {
 			return Boolean.TYPE;
 		}
@@ -122,14 +120,7 @@ public class ReflectUtil {
 			return Long.class;
 		}
 
-		try {
-			return Class.forName(className);
-		}
-		catch (ClassNotFoundException e) {
-			_logger.error("Class not found, returns with Object.class.", e);
-		}
-
-		return Object.class;
+		return Class.forName(className);
 	}
 
 	/**
@@ -139,8 +130,9 @@ public class ReflectUtil {
 	 * @param className
 	 * @param value
 	 * @return
+	 * @throws ClassNotFoundException
 	 */
-	public static Object getValue(String className, Object value) {
+	public static Object getValue(String className, Object value) throws ClassNotFoundException {
 		if (className.equals(Boolean.TYPE.toString()) || className.equals(Boolean.class.getName())) {
 			return castValue(Boolean.class, value, false);
 		}

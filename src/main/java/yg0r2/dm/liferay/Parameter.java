@@ -32,8 +32,9 @@ public final class Parameter {
 	 *
 	 * @param name
 	 * @param clazz
+	 * @throws ClassNotFoundException 
 	 */
-	public Parameter(String name, Class<?> clazz) {
+	public Parameter(String name, Class<?> clazz) throws ClassNotFoundException {
 		this(name, clazz.getName(), null);
 	}
 
@@ -42,8 +43,9 @@ public final class Parameter {
 	 *
 	 * @param name
 	 * @param className
+	 * @throws ClassNotFoundException 
 	 */
-	public Parameter(String name, String className) {
+	public Parameter(String name, String className) throws ClassNotFoundException {
 		this(name, className, null);
 	}
 
@@ -53,8 +55,9 @@ public final class Parameter {
 	 * @param name
 	 * @param clazz
 	 * @param value
+	 * @throws ClassNotFoundException 
 	 */
-	public Parameter(String name, Class<?> clazz, Object value) {
+	public Parameter(String name, Class<?> clazz, Object value) throws ClassNotFoundException {
 		this(name, clazz.getName(), value);
 	}
 
@@ -64,8 +67,9 @@ public final class Parameter {
 	 * @param name
 	 * @param className
 	 * @param value
+	 * @throws ClassNotFoundException 
 	 */
-	public Parameter(String name, String className, Object value) {
+	public Parameter(String name, String className, Object value) throws ClassNotFoundException {
 		_name = name;
 
 		_type = ReflectUtil.getType(className);

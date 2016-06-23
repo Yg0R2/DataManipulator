@@ -27,7 +27,7 @@ import yg0r2.dm.liferay.Parameter;
 public class ParameterTest {
 
 	@Test
-	public void constructorClassTest() {
+	public void constructorClassTest() throws ClassNotFoundException {
 		assertEquals(false, (new Parameter(null, Boolean.class)).getValue());
 		assertEquals(true, (new Parameter(null, Boolean.class, true)).getValue());
 		assertEquals(true, (new Parameter(null, Boolean.class, "true")).getValue());
@@ -49,8 +49,13 @@ public class ParameterTest {
 		assertNotEquals(0L, (new Parameter(null, Long.class, 1L)).getValue());
 	}
 
+	@Test(expected = ClassNotFoundException.class)
+	public void constructorInvalidClassTest() throws ClassNotFoundException {
+		new Parameter(null, "java.lang.NonExistingClass");
+	}
+
 	@Test
-	public void constructorPrimitiveTest() {
+	public void constructorPrimitiveTest() throws ClassNotFoundException {
 		assertEquals(false, (new Parameter(null, Boolean.TYPE)).getValue());
 		assertEquals(true, (new Parameter(null, Boolean.TYPE, true)).getValue());
 		assertEquals(true, (new Parameter(null, Boolean.TYPE, "true")).getValue());
@@ -96,7 +101,7 @@ public class ParameterTest {
 	}
 
 	@Test
-	public void constructorValueTest() {
+	public void constructorValueTest() throws ClassNotFoundException {
 		Object[] objectArray = new Object[] {true, "false", 1d, 1L, 1, "1"};
 		List<Object> objectList = Arrays.asList(objectArray);
 
