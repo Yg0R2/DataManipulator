@@ -5,22 +5,17 @@
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="defaultCountBean" class="yg0r2.dm.mvc.displayfield.DisplayField">
-		<constructor-arg name="id">
-			<null />
-		</constructor-arg>
-		<constructor-arg name="fieldType" type="yg0r2.dm.mvc.displayfield.FieldType" value="INPUT" />
-		<constructor-arg name="value" value="0" />
-		<constructor-arg name="required" value="true" />
-	</bean>
+	<import resource="liferay-base-bean.xml" />
+
+	<!-- Blog -->
 
 	<bean id="blog-entry" class="yg0r2.dm.entry.DataManipulatorEntry">
 		<constructor-arg index="0" name="displayFields">
 			<list>
-				<bean parent="defaultCountBean">
+				<bean parent="display-field-bean">
 					<constructor-arg name="id" value="blog-entry-count" />
 				</bean>
-				<bean parent="defaultCountBean">
+				<bean parent="display-field-bean">
 					<constructor-arg name="id" value="blog-entry-updateCount" />
 				</bean>
 			</list>
@@ -32,48 +27,218 @@
 		</constructor-arg>
 		<constructor-arg index="2" name="addMethod">
 			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
-				<constructor-arg name="utilClassName" value="com.liferay.service.blog.BlogEntryServiceUtil" />
+				<constructor-arg name="utilClassName" value="com.liferay.portlet.blogs.service.BlogsEntryLocalServiceUtil" />
 				<constructor-arg name="methodName" value="addEntry" />
 				<constructor-arg name="parameters">
 					<list>
-						<bean class="yg0r2.dm.liferay.Parameter">
-							<constructor-arg name="name" value="title" />
-							<constructor-arg name="className" value="java.lang.String" />
+						<ref bean="user-id-bean" />
+						<bean parent="title-bean">
 							<constructor-arg name="value" value="${counter}. Blog Entry Title - ${rndString}" />
 						</bean>
-						<bean class="yg0r2.dm.liferay.Parameter">
-							<constructor-arg name="name" value="content" />
-							<constructor-arg name="className" value="java.lang.String" />
+						<bean parent="description-bean">
+							<constructor-arg name="value" value="${counter}. Blog Entry Description - ${rndString}" />
+						</bean>
+						<bean parent="content-bean">
 							<constructor-arg name="value" value="${counter}. Blog Entry Content - ${rndString}" />
 						</bean>
+						<ref bean="display-date-month-bean" />
+						<ref bean="display-date-day-bean" />
+						<ref bean="display-date-year-bean" />
+						<ref bean="display-date-hour-bean" />
+						<ref bean="display-date-minute-bean" />
+						<ref bean="allow-pingbacks-bean" />
+						<ref bean="allow-trackbacks-bean" />
+						<ref bean="trackbacks-bean" />
+						<ref bean="small-image-bean" />
+						<ref bean="small-image-url-bean" />
+						<ref bean="small-image-file-name-bean" />
+						<ref bean="small-image-input-stream-bean" />
+						<ref bean="service-context-bean" />
 					</list>
 				</constructor-arg>
 			</bean>
 		</constructor-arg>
 		<constructor-arg index="3" name="updateMethod">
 			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
-				<constructor-arg name="utilClassName" value="com.liferay.service.blog.BlogEntryServiceUtil" />
+				<constructor-arg name="utilClassName" value="com.liferay.portlet.blogs.service.BlogsEntryLocalServiceUtil" />
 				<constructor-arg name="methodName" value="updateEntry" />
 				<constructor-arg name="parameters">
 					<list>
-						<bean class="yg0r2.dm.liferay.Parameter">
-							<constructor-arg name="name" value="entryId" />
-							<constructor-arg name="className" value="long" />
-							<constructor-arg name="value" value="1" />
-						</bean>
-						<bean class="yg0r2.dm.liferay.Parameter">
-							<constructor-arg name="name" value="editedTitle" />
-							<constructor-arg name="className" value="java.lang.String" />
+						<ref bean="user-id-bean" />
+						<ref bean="entry-id-bean" />
+						<bean parent="title-bean">
 							<constructor-arg name="value" value="${updatePrefix}${counter}. Blog Entry Title - ${rndString}" />
 						</bean>
-						<bean class="yg0r2.dm.liferay.Parameter">
-							<constructor-arg name="name" value="editedContent" />
-							<constructor-arg name="className" value="java.lang.String" />
+						<bean parent="description-bean">
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Blog Entry Description - ${rndString}" />
+						</bean>
+						<bean parent="content-bean">
 							<constructor-arg name="value" value="${updatePrefix}${counter}. Blog Entry Content - ${rndString}" />
 						</bean>
+						<ref bean="display-date-month-bean" />
+						<ref bean="display-date-day-bean" />
+						<ref bean="display-date-year-bean" />
+						<ref bean="display-date-hour-bean" />
+						<ref bean="display-date-minute-bean" />
+						<ref bean="allow-pingbacks-bean" />
+						<ref bean="allow-trackbacks-bean" />
+						<ref bean="trackbacks-bean" />
+						<ref bean="small-image-bean" />
+						<ref bean="small-image-url-bean" />
+						<ref bean="small-image-file-name-bean" />
+						<ref bean="small-image-input-stream-bean" />
+						<ref bean="service-context-bean" />
 					</list>
 				</constructor-arg>
 			</bean>
 		</constructor-arg>
+	</bean>
+
+	<!-- Bookmark -->
+
+	<bean id="bookmark-entry" class="yg0r2.dm.entry.DataManipulatorEntry">
+		<constructor-arg index="0" name="displayFields">
+			<list>
+				<bean parent="display-field-bean">
+					<constructor-arg name="id" value="bookmark-entry-count" />
+				</bean>
+				<bean parent="display-field-bean">
+					<constructor-arg name="id" value="bookmark-entry-updateCount" />
+				</bean>
+				<bean parent="display-field-bean">
+					<constructor-arg name="id" value="bookmark-entry-url" />
+					<constructor-arg name="value" value="https://github.com/Yg0R2/DataManipulator" />
+				</bean>
+			</list>
+		</constructor-arg>
+		<constructor-arg index="1" name="entrySpecificArgs">
+			<map>
+				<entry key="yg0r2.dm.liferay.LiferayEntryKey.ENTRY_ID_KEY" value="entryId" />
+				<entry key="yg0r2.dm.liferay.LiferayEntryKey.PARENT_ENTRY_ID_KEY" value="folderId" />
+			</map>
+		</constructor-arg>
+		<constructor-arg index="2" name="addMethod">
+			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
+				<constructor-arg name="utilClassName" value="com.liferay.portlet.bookmarks.service.BookmarksEntryLocalServiceUtil" />
+				<constructor-arg name="methodName" value="addEntry" />
+				<constructor-arg name="parameters">
+					<list>
+						<ref bean="user-id-bean" />
+						<ref bean="group-id-bean" />
+						<bean parent="parent-entry-id-bean">
+							<constructor-arg name="name" value="folderId" />
+						</bean>
+						<bean parent="name-bean">
+							<constructor-arg name="value" value="${counter}. Bookmark Entry Name - ${rndString}" />
+						</bean>
+						<ref bean="url-bean" />
+						<bean parent="description-bean">
+							<constructor-arg name="value" value="${counter}. Bookmark Entry Description - ${rndString}" />
+						</bean>
+						<ref bean="service-context-bean" />
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="3" name="updateMethod">
+			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
+				<constructor-arg name="utilClassName" value="com.liferay.portlet.bookmarks.service.BookmarksEntryLocalServiceUtil" />
+				<constructor-arg name="methodName" value="updateEntry" />
+				<constructor-arg name="parameters">
+					<list>
+						<ref bean="user-id-bean" />
+						<ref bean="entry-id-bean" />
+						<ref bean="group-id-bean" />
+						<bean parent="parent-entry-id-bean">
+							<constructor-arg name="name" value="folderId" />
+						</bean>
+						<bean parent="name-bean">
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Bookmark Entry Name - ${rndString}" />
+						</bean>
+						<ref bean="url-bean" />
+						<bean parent="description-bean">
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Bookmark Entry Description - ${rndString}" />
+						</bean>
+						<ref bean="service-context-bean" />
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="bookmark-folder" class="yg0r2.dm.entry.DataManipulatorEntry">
+		<constructor-arg index="0" name="displayFields">
+			<list>
+				<bean parent="display-field-bean">
+					<constructor-arg name="id" value="bookmark-folder-count" />
+				</bean>
+				<bean parent="display-field-bean">
+					<constructor-arg name="id" value="bookmark-folder-updateCount" />
+				</bean>
+				<bean parent="display-field-bean">
+					<constructor-arg name="id" value="bookmark-folder-depth" />
+				</bean>
+				<bean parent="display-field-bean">
+					<constructor-arg name="id" value="bookmark-folder-subCount" />
+				</bean>
+			</list>
+		</constructor-arg>
+		<constructor-arg index="1" name="entrySpecificArgs">
+			<map>
+				<entry key="yg0r2.dm.liferay.LiferayEntryKey.ENTRY_ID_KEY" value="folderId" />
+				<entry key="yg0r2.dm.liferay.LiferayEntryKey.PARENT_ENTRY_ID_KEY" value="parentFolderId" />
+			</map>
+		</constructor-arg>
+		<constructor-arg index="2" name="addMethod">
+			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
+				<constructor-arg name="utilClassName" value="com.liferay.portlet.bookmarks.service.BookmarksFolderLocalServiceUtil" />
+				<constructor-arg name="methodName" value="addFolder" />
+				<constructor-arg name="parameters">
+					<list>
+						<ref bean="user-id-bean" />
+						<bean parent="parent-entry-id-bean">
+							<constructor-arg name="name" value="parentFolderId" />
+						</bean>
+						<bean parent="name-bean">
+							<constructor-arg name="value" value="${counter}. Bookmark Folder Name - ${rndString}" />
+						</bean>
+						<bean parent="description-bean">
+							<constructor-arg name="value" value="${counter}. Bookmark Folder Description - ${rndString}" />
+						</bean>
+						<ref bean="service-context-bean" />
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="3" name="updateMethod">
+			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
+				<constructor-arg name="utilClassName" value="com.liferay.portlet.bookmarks.service.BookmarksFolderLocalServiceUtil" />
+				<constructor-arg name="methodName" value="updateFolder" />
+				<constructor-arg name="parameters">
+					<list>
+						<ref bean="user-id-bean" />
+						<bean parent="entry-id-bean">
+							<constructor-arg name="name" value="folderId" />
+						</bean>
+						<bean parent="parent-entry-id-bean">
+							<constructor-arg name="name" value="parentFolderId" />
+						</bean>
+						<bean parent="name-bean">
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Bookmark Folder Name - ${rndString}" />
+						</bean>
+						<bean parent="description-bean">
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Bookmark Folder Description - ${rndString}" />
+						</bean>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="mergeWithParentFolder" />
+							<constructor-arg name="className" value="boolean" />
+							<constructor-arg name="value" value="false" />
+						</bean>
+						<ref bean="service-context-bean" />
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<property name="subDataManipulatorEntries" ref="bookmark-entry" />
 	</bean>
 </beans>

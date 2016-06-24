@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- Display Field bean -->
+
+	<bean id="display-field-bean" class="yg0r2.dm.mvc.displayfield.DisplayField">
+		<constructor-arg name="id">
+			<null />
+		</constructor-arg>
+		<constructor-arg name="fieldType" type="yg0r2.dm.mvc.displayfield.FieldType" value="INPUT" />
+		<constructor-arg name="value" value="0" />
+		<constructor-arg name="required" value="true" />
+	</bean>
+
+	<!-- Entry id bean -->
+
+	<bean id="entry-id-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="entryId" />
+		<constructor-arg name="className" value="long" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="parent-entry-id-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="parentEntryId" />
+		<constructor-arg name="className" value="long" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<!-- Liferay Entry beans -->
+
+	<bean id="allow-pingbacks-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="allowPingbacks" />
+		<constructor-arg name="className" value="boolean" />
+		<constructor-arg name="value" value="false" />
+	</bean>
+
+	<bean id="allow-trackbacks-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="allowTrackbacks" />
+		<constructor-arg name="className" value="boolean" />
+		<constructor-arg name="value" value="false" />
+	</bean>
+
+	<bean id="content-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="content" />
+		<constructor-arg name="className" value="java.lang.String" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="description-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="description" />
+		<constructor-arg name="className" value="java.lang.String" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="display-date-day-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="displayDateDay" />
+		<constructor-arg name="className" value="int" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="display-date-hour-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="displayDateHour" />
+		<constructor-arg name="className" value="int" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="display-date-minute-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="displayDateMinute" />
+		<constructor-arg name="className" value="int" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="display-date-month-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="displayDateMonth" />
+		<constructor-arg name="className" value="int" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="display-date-year-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="displayDateYear" />
+		<constructor-arg name="className" value="int" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="group-id-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="groupId" />
+		<constructor-arg name="className" value="long" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="name-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="name" />
+		<constructor-arg name="className" value="java.lang.String" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="service-context-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="serviceContext" />
+		<constructor-arg name="className" value="com.liferay.portal.service.ServiceContext" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="small-image-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="smallImage" />
+		<constructor-arg name="className" value="boolean" />
+		<constructor-arg name="value" value="false" />
+	</bean>
+
+	<bean id="small-image-file-name-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="smallImageFileName" />
+		<constructor-arg name="className" value="java.lang.String" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="small-image-input-stream-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="smallImageInputStream" />
+		<constructor-arg name="className" value="java.io.InputStream" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="small-image-url-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="smallImageURL" />
+		<constructor-arg name="className" value="java.lang.String" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="title-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="title" />
+		<constructor-arg name="className" value="java.lang.String" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="trackbacks-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="trackbacks" />
+		<constructor-arg name="className" value="[Ljava.lang.String;" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="url-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="url" />
+		<constructor-arg name="className" value="java.lang.String" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+
+	<bean id="user-id-bean" class="yg0r2.dm.liferay.Parameter">
+		<constructor-arg name="name" value="userId" />
+		<constructor-arg name="className" value="long" />
+		<constructor-arg name="value"><null /></constructor-arg>
+	</bean>
+</beans>
