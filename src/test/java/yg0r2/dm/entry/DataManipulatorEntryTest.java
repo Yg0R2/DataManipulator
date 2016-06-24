@@ -23,10 +23,10 @@ import org.junit.Test;
 
 import yg0r2.dm.liferay.LiferayEntryKey;
 import yg0r2.dm.liferay.LiferayUtilMethod;
-import yg0r2.dm.liferay.MockLiferayUtilMethod;
 import yg0r2.dm.liferay.Parameter;
 import yg0r2.dm.mvc.displayfield.DisplayField;
 import yg0r2.dm.mvc.displayfield.FieldType;
+import yg0r2.liferay.mock.MockLiferayUtilMethod;
 
 /**
  * @author Yg0R2

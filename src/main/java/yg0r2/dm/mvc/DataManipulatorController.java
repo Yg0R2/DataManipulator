@@ -59,11 +59,11 @@ public class DataManipulatorController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView selectBean() {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("liferay-6.0.12-bean.xml");
+		String[] beanIds = null;
 
-		String[] beanIds = context.getBeanNamesForType(DataManipulatorEntry.class);
-
-		context.close();
+		try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("liferay-6.0.12-bean.xml")) {
+			beanIds = context.getBeanNamesForType(DataManipulatorEntry.class);
+		}
 
 		ModelAndView modelAndView = new ModelAndView("navigation");
 
@@ -74,11 +74,9 @@ public class DataManipulatorController {
 	}
 
 	private DataManipulatorEntry _getDME(String beanId) {
-		AbstractApplicationContext context = new ClassPathXmlApplicationContext("liferay-6.0.12-bean.xml");
-		DataManipulatorEntry dme = context.getBean(beanId, DataManipulatorEntry.class);
-		context.close();
-
-		return dme;
+		try (AbstractApplicationContext context = new ClassPathXmlApplicationContext("liferay-6.0.12-bean.xml")) {
+			return context.getBean(beanId, DataManipulatorEntry.class);
+		}
 	}
 
 }

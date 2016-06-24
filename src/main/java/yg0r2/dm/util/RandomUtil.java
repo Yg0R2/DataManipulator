@@ -20,7 +20,7 @@ import java.util.Random;
 /**
  * @author Yg0R2
  */
-public final class RandomUtil {
+public class RandomUtil {
 
 	private static final char[] _ALLOWED_DIGITS = {
 		'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',

@@ -30,7 +30,7 @@ import yg0r2.dm.util.resolver.MacroMapResolver;
  *
  * @author Yg0R2
  */
-public final class LiferayUtilMethod {
+public class LiferayUtilMethod {
 
 	private String _methodName;
 	private List<Parameter> _parameters;

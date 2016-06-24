@@ -66,6 +66,8 @@ dependencies {
     testCompile 'junit:junit:latest.release'
     testCompile 'org.testng:testng:latest.release'
     testCompile 'org.mockito:mockito-all:latest.release'
+    testCompile 'org.powermock:powermock-api-mockito:latest.release'
+    testCompile 'org.powermock:powermock-module-junit4:latest.release'
 }
 
 jar {

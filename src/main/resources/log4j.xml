@@ -9,7 +9,7 @@
 	</appender>
 
 	<logger name="yg0r2">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<root>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package yg0r2.dm.liferay;
+package yg0r2.liferay.mock;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -35,6 +35,10 @@ public class MockLiferayUtilMethod {
 		return null;
 	}
 
+	public static MockLiferayEntry addEntry(String title, String content) {
+		return new MockLiferayEntry(title, content);
+	}
+
 	/**
 	 * Like an updateEntry method of a Liferay <b>*[Local]ServiceUtil</b> class.
 	 *
@@ -43,6 +47,10 @@ public class MockLiferayUtilMethod {
 	 */
 	public static Object updateEntry(Object entry) {
 		return entry;
+	}
+
+	public static MockLiferayEntry updateEntry(long entryId, String editedTitle, String editedContent) {
+		return new MockLiferayEntry(editedTitle, editedContent);
 	}
 
 }

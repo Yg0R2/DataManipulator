@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.BeanNameAware;
+
 import yg0r2.dm.liferay.LiferayUtilMethod;
 import yg0r2.dm.mvc.displayfield.DisplayField;
 import yg0r2.dm.util.ReflectUtil;
@@ -24,14 +26,23 @@ import yg0r2.dm.util.ReflectUtil;
 /**
  * @author Yg0R2
  */
-public final class DataManipulatorEntry {
+public final class DataManipulatorEntry implements BeanNameAware {
 
 	private LiferayUtilMethod _addMethod;
+	private String _beanName;
 	private List<DisplayField> _displayFields;
 	private Map<String, String> _entrySpecificArgs = new HashMap<>(2);
 	private List<DataManipulatorEntry> _subDataManipulatorEntries = new ArrayList<>(0);
 	private LiferayUtilMethod _updateMethod;
 
+	/**
+	 * Create a new instance of <b>DataManipulatorEntry</b>.
+	 *
+	 * @param displayFields
+	 * @param entrySpecificArgs
+	 * @param addMethod
+	 * @param updateMethod
+	 */
 	public DataManipulatorEntry(List<DisplayField> displayFields, Map<String, String> entrySpecificArgs,
 		LiferayUtilMethod addMethod, LiferayUtilMethod updateMethod) {
 
@@ -62,6 +73,10 @@ public final class DataManipulatorEntry {
 	 */
 	public LiferayUtilMethod getAddMethod() {
 		return _addMethod;
+	}
+
+	public String getBeanName() {
+		return _beanName;
 	}
 
 	/**
@@ -101,6 +116,11 @@ public final class DataManipulatorEntry {
 		for (DataManipulatorEntry dme : dataManipulatorEntries) {
 			_subDataManipulatorEntries.add(dme);
 		}
+	}
+
+	@Override
+	public void setBeanName(String name) {
+		_beanName = name;
 	}
 
 }

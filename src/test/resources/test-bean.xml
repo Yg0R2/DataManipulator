@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="defaultCountBean" class="yg0r2.dm.mvc.displayfield.DisplayField">
+		<constructor-arg name="id">
+			<null />
+		</constructor-arg>
+		<constructor-arg name="fieldType" type="yg0r2.dm.mvc.displayfield.FieldType" value="INPUT" />
+		<constructor-arg name="value" value="0" />
+		<constructor-arg name="required" value="true" />
+	</bean>
+
+	<bean id="parent-entry" class="yg0r2.dm.entry.DataManipulatorEntry">
+		<constructor-arg index="0" name="displayFields">
+			<list>
+				<bean parent="defaultCountBean">
+					<constructor-arg name="id" value="parent-entry-count" />
+				</bean>
+				<bean parent="defaultCountBean">
+					<constructor-arg name="id" value="parent-entry-updateCount" />
+				</bean>
+				<bean parent="defaultCountBean">
+					<constructor-arg name="id" value="parent-entry-depth" />
+				</bean>
+				<bean parent="defaultCountBean">
+					<constructor-arg name="id" value="parent-entry-subeCount" />
+				</bean>
+			</list>
+		</constructor-arg>
+		<constructor-arg index="1" name="entrySpecificArgs">
+			<map>
+				<entry key="yg0r2.dm.liferay.LiferayEntryKey.ENTRY_ID_KEY" value="entryId" />
+				<entry key="yg0r2.dm.liferay.LiferayEntryKey.PARENT_ENTRY_ID_KEY" value="parentEntryId" />
+			</map>
+		</constructor-arg>
+		<constructor-arg index="2" name="addMethod">
+			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
+				<constructor-arg name="utilClassName" value="yg0r2.liferay.mock.MockLiferayUtilMethod" />
+				<constructor-arg name="methodName" value="addEntry" />
+				<constructor-arg name="parameters">
+					<list>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="title" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${counter}. Parent Entry Title - ${rndString}" />
+						</bean>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="content" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${counter}. Parent Entry Content - ${rndString}" />
+						</bean>
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="3" name="updateMethod">
+			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
+				<constructor-arg name="utilClassName" value="yg0r2.liferay.mock.MockLiferayUtilMethod" />
+				<constructor-arg name="methodName" value="updateEntry" />
+				<constructor-arg name="parameters">
+					<list>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="entryId" />
+							<constructor-arg name="className" value="long" />
+							<constructor-arg name="value" value="1" />
+						</bean>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="editedTitle" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Parent Entry Title - ${rndString}" />
+						</bean>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="editedContent" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Parent Entry Content - ${rndString}" />
+						</bean>
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<property name="subDataManipulatorEntries" ref="child-entry" />
+	</bean>
+
+	<bean id="child-entry" class="yg0r2.dm.entry.DataManipulatorEntry">
+		<constructor-arg index="0" name="displayFields">
+			<list>
+				<bean parent="defaultCountBean">
+					<constructor-arg name="id" value="child-entry-count" />
+				</bean>
+				<bean parent="defaultCountBean">
+					<constructor-arg name="id" value="child-entry-updateCount" />
+				</bean>
+			</list>
+		</constructor-arg>
+		<constructor-arg index="1" name="entrySpecificArgs">
+			<map>
+				<entry key="yg0r2.dm.liferay.LiferayEntryKey.ENTRY_ID_KEY" value="entryId" />
+				<entry key="yg0r2.dm.liferay.LiferayEntryKey.PARENT_ENTRY_ID_KEY" value="parentEntryId" />
+			</map>
+		</constructor-arg>
+		<constructor-arg index="2" name="addMethod">
+			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
+				<constructor-arg name="utilClassName" value="yg0r2.liferay.mock.MockLiferayUtilMethod" />
+				<constructor-arg name="methodName" value="addEntry" />
+				<constructor-arg name="parameters">
+					<list>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="title" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${counter}. Child Entry Title - ${rndString}" />
+						</bean>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="content" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${counter}. Child Entry Content - ${rndString}" />
+						</bean>
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="3" name="updateMethod">
+			<bean class="yg0r2.dm.liferay.LiferayUtilMethod">
+				<constructor-arg name="utilClassName" value="yg0r2.liferay.mock.MockLiferayUtilMethod" />
+				<constructor-arg name="methodName" value="updateEntry" />
+				<constructor-arg name="parameters">
+					<list>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="entryId" />
+							<constructor-arg name="className" value="long" />
+							<constructor-arg name="value" value="1" />
+						</bean>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="editedTitle" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Child Entry Title - ${rndString}" />
+						</bean>
+						<bean class="yg0r2.dm.liferay.Parameter">
+							<constructor-arg name="name" value="editedContent" />
+							<constructor-arg name="className" value="java.lang.String" />
+							<constructor-arg name="value" value="${updatePrefix}${counter}. Child Entry Content - ${rndString}" />
+						</bean>
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+</beans>

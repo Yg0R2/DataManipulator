@@ -13,6 +13,7 @@
 package yg0r2.dm;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import yg0r2.dm.liferay.LiferayEntryKey;
 import yg0r2.dm.mvc.displayfield.DisplayField;
 import yg0r2.dm.util.RandomUtil;
 import yg0r2.dm.util.RequestUtil;
+import yg0r2.dm.util.ThreadUtil;
 
 /**
  * @author Yg0R2
@@ -41,7 +43,9 @@ public class DataManipulatorRunnable implements Runnable {
 	private DataManipulatorEntry _dmEntry;
 
 	/**
-	 * Constructor
+	 * Create a new instance of <b>DataManipulatorRunnable</b>.
+	 * <p>
+	 * It requires a <i>HttpServletRequest</i> parameter to get all parameters from view.
 	 *
 	 * @param dataManipulatorEntry
 	 * @param request
@@ -52,6 +56,11 @@ public class DataManipulatorRunnable implements Runnable {
 		_request = request;
 	}
 
+	/**
+	 * Create a new instance of <b>DataManipulatorRunnable</b>.
+	 *
+	 * @param dataManipulatorEntry
+	 */
 	private DataManipulatorRunnable(DataManipulatorEntry dataManipulatorEntry) {
 		_dmEntry = dataManipulatorEntry;
 	}
@@ -61,26 +70,30 @@ public class DataManipulatorRunnable implements Runnable {
 	 */
 	@Override
 	public void run() {
+		String threadName = Thread.currentThread().getName();
+
 		int count = 0;
 		int depth = 0;
 		int subCount = 0;
 		int updateCount = 0;
+
+		String beanId = _dmEntry.getBeanName();
 
 		Map<String, Object> argsMap = new HashMap<>(_dmEntry.getEntrySpecificArgs());
 
 		for (DisplayField displayField : _dmEntry.getDisplayFields()) {
 			String fieldId = displayField.getId();
 
-			if (fieldId.endsWith("-count")) {
+			if (fieldId.equals(beanId + "-count")) {
 				count = RequestUtil.getIntParameter(_request, fieldId);
 			}
-			else if (fieldId.endsWith("-depth")) {
+			else if (fieldId.equals(beanId + "-depth")) {
 				depth = RequestUtil.getIntParameter(_request, fieldId);
 			}
-			else if (fieldId.endsWith("-subCount")) {
+			else if (fieldId.equals(beanId + "-subCount")) {
 				subCount = RequestUtil.getIntParameter(_request, fieldId);
 			}
-			else if (fieldId.endsWith("-updateCount")) {
+			else if (fieldId.equals(beanId + "-updateCount")) {
 				updateCount = RequestUtil.getIntParameter(_request, fieldId);
 			}
 
@@ -94,7 +107,13 @@ public class DataManipulatorRunnable implements Runnable {
 				return;
 			}
 
+			_logger.info("Start add entries on: " + threadName);
+
 			for (int i = 0; i < count; i++) {
+				if (_logger.isDebugEnabled()) {
+					_logger.debug("Add entry-" + String.valueOf(i + 1) + " on " + threadName);
+				}
+
 				// Add a new Entry
 
 				Map<String, Object> addArgsMap = new HashMap<>(argsMap);
@@ -105,7 +124,16 @@ public class DataManipulatorRunnable implements Runnable {
 
 				// Update the entry
 
+				if (_logger.isDebugEnabled() && updateCount > 0) {
+					_logger.debug("Start update entries on: " + threadName);
+				}
+
 				for (int j = 0; j < updateCount; j++) {
+					if (_logger.isDebugEnabled()) {
+						_logger.debug(
+							String.valueOf(j + 1) + ". update on entry-" + String.valueOf(i + 1) + " on " + threadName);
+					}
+
 					Map<String, Object> updateArgsMap = new HashMap<>(addArgsMap);
 
 					updateArgsMap.put("updatePrefix", String.valueOf(j + 1) + ". update on the ");
@@ -121,8 +149,12 @@ public class DataManipulatorRunnable implements Runnable {
 
 				addSubLiferayEntries(entry, new HashMap<>(argsMap), depth, subCount);
 			}
+
+			_logger.info("Finish add entries on: " + threadName);
 		}
 		catch (Exception e) {
+			_logger.info("Failed to add entries on: " + threadName);
+
 			_logger.error("The following exeption appeared during the executiof of this thread.", e);
 		}
 	}
@@ -172,6 +204,10 @@ public class DataManipulatorRunnable implements Runnable {
 
 		if (depth <= 0) {
 			return;
+		}
+
+		if (_logger.isDebugEnabled()) {
+			_logger.debug("Start add child entries on: " + Thread.currentThread().getName());
 		}
 
 		for (int i = 0; i < count; i++) {
@@ -240,8 +276,14 @@ public class DataManipulatorRunnable implements Runnable {
 	 * @throws Exception
 	 */
 	private final void _runSubDataManipulatorEntry(Map<String, Object> argsMap) throws Exception {
-		for (DataManipulatorEntry dmEntry : _dmEntry.getSubDataManipulatorEntries()) {
-			new DataManipulatorRunnable(dmEntry).run();
+		List<DataManipulatorEntry> dataManipulatorEntries = _dmEntry.getSubDataManipulatorEntries();
+
+		if (_logger.isDebugEnabled() && !dataManipulatorEntries.isEmpty()) {
+			_logger.debug("Start add sub type entries on: " + Thread.currentThread().getName());
+		}
+
+		for (DataManipulatorEntry dmEntry : dataManipulatorEntries) {
+			ThreadUtil.run(new DataManipulatorRunnable(dmEntry));
 		}
 	}
 
