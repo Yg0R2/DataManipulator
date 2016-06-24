@@ -24,87 +24,84 @@ apply from: "gradle.properties "
 
 def userProperties = new File ("gradle.${System.env.USERNAME}.properties")
 if (userProperties.exists()) {
-	println 'here'
 	apply from: {-> "${userProperties}"}
 }
 
 buildscript {
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath "com.athaydes.gradle.osgi:osgi-run-core:1.2"
-    }
+	repositories {
+		jcenter()
+		mavenCentral()
+	}
+	dependencies {
+		classpath "com.athaydes.gradle.osgi:osgi-run-core:1.2"
+	}
 }
 
 dependencies {
-    compile 'commons-lang:commons-lang:latest.release'
+	compile 'commons-lang:commons-lang:latest.release'
 
-    compile 'javax.servlet:servlet-api:latest.release'
-    compile 'javax.servlet:jstl:latest.release'
-    compile 'javax.servlet:jsp-api:latest.release'
+	providedCompile 'javax.servlet:servlet-api:latest.release'
 
-    // Spring
-    compile 'org.springframework:spring-core:latest.release'
-    compile 'org.springframework:spring-beans:latest.release'
-    compile 'org.springframework:spring-context:latest.release'
-    compile 'org.springframework:spring-web:latest.release'
-    compile 'org.springframework:spring-webmvc:latest.release'
+	// Spring
+	compile 'org.springframework:spring-core:latest.release'
+	compile 'org.springframework:spring-beans:latest.release'
+	compile 'org.springframework:spring-context:latest.release'
+	compile 'org.springframework:spring-web:latest.release'
+	compile 'org.springframework:spring-webmvc:latest.release'
 
-    // Jodd
-    compile 'org.jodd:jodd-bean:latest.release'
-    compile 'org.jodd:jodd-proxetta:latest.release'
+	// Jodd
+	compile 'org.jodd:jodd-bean:latest.release'
+	compile 'org.jodd:jodd-proxetta:latest.release'
 
 	// Log
-    compile 'org.slf4j:slf4j-api:latest.release'
-    compile 'org.slf4j:slf4j-log4j12:latest.release'
-    compile 'log4j:log4j:latest.release'
+	compile 'org.slf4j:slf4j-api:latest.release'
+	compile 'org.slf4j:slf4j-log4j12:latest.release'
+	compile 'log4j:log4j:latest.release'
 
 	// Test
-    compile 'com.google.guava:guava:latest.release'
-    testCompile 'junit:junit:latest.release'
-    testCompile 'org.testng:testng:latest.release'
-    testCompile 'org.mockito:mockito-all:latest.release'
-    testCompile 'org.powermock:powermock-api-mockito:latest.release'
-    testCompile 'org.powermock:powermock-module-junit4:latest.release'
+	compile 'com.google.guava:guava:latest.release'
+	testCompile 'junit:junit:latest.release'
+	testCompile 'org.testng:testng:latest.release'
+	testCompile 'org.mockito:mockito-all:latest.release'
+	testCompile 'org.powermock:powermock-api-mockito:latest.release'
+	testCompile 'org.powermock:powermock-module-junit4:latest.release'
 }
 
 jar {
-    manifest {
-        name = 'DataManipulator'
+	manifest {
+		name = 'DataManipulator'
 
-        instruction 'Private-Package','yg0r2.dm.*'
-        instruction 'Bundle-Vendor', 'Yg02'
-        instruction 'Bundle-Description', 'Generate data into Liferay portal'
-        instruction 'Import-Package', '!*'
-        instruction 'Export-Package', 'yg0r2.dm.mvc;version="' + version + '"'
-    }
+		instruction 'Private-Package','yg0r2.dm.*'
+		instruction 'Bundle-Vendor', 'Yg02'
+		instruction 'Bundle-Description', 'Generate data into Liferay portal'
+		instruction 'Import-Package', '!*,com.liferay.portal.kernel.portlet.bridges.mvc;version="[1.0,2)",javax.portlet;version="[2.0,3)",javax.servlet,javax.servlet.http'
+		instruction 'Export-Package', 'yg0r2.dm.mvc;version="' + version + '"'
+	}
 }
 
 repositories {
-    jcenter()
+	jcenter()
 }
 
 war {
-    archiveName 'DataManipulator.war'
+	archiveName 'DataManipulator.war'
 
-    // Have to "clean" the classpath first
-    classpath = jar
-    classpath configurations.compile
+	// Have to "clean" the classpath first
+	classpath = jar
+	classpath configurations.compile
 
-    manifest {
-        attributes 'Implementation-Title': 'Data Manipulator', 'Implementation-Version': version
-    }
+	manifest {
+		attributes 'Implementation-Title': 'Data Manipulator', 'Implementation-Version': version
+	}
 }
 
 task all(dependsOn: [clean, tasks.war, 'deploy']) << {
 }
 
 task deploy(dependsOn: tasks.war) << {
-    copy {
-        from "build/libs"
-        into "${appServerDeployDir}"
-        include "*.war"
-    }
+	copy {
+		from "build/libs"
+		into "${appServerDeployDir}"
+		include "*.war"
+	}
 }
