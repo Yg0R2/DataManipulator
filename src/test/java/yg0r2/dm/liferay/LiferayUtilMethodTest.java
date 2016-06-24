@@ -98,7 +98,7 @@ public class LiferayUtilMethodTest {
 		LiferayUtilMethod liferayUtilMethod = new LiferayUtilMethod(MockLiferayUtilMethod.class.getName(), "addEntry",
 			new ArrayList<>(0));
 
-		liferayUtilMethod.invoke(null);
+		liferayUtilMethod.invoke(new HashMap<>(0));
 
 		verify(testMockUtilClass, times(1)).addEntry();
 	}

@@ -75,19 +75,19 @@ public class ReflectUtilTest {
 
 	@Test
 	public void castIntegerTest() throws ClassNotFoundException {
-		assertEquals(123, ReflectUtil.castValue(Integer.class, "123", null));
+		assertEquals(Integer.valueOf(123), ReflectUtil.castValue(Integer.class, "123", null));
 
-		assertEquals(123, ReflectUtil.castValue(Integer.class, 123, null));
-		assertEquals(123, ReflectUtil.castValue(Integer.class, 123D, null));
-		assertEquals(123, ReflectUtil.castValue(Integer.class, 123L, null));
+		assertEquals(Integer.valueOf(123), ReflectUtil.castValue(Integer.class, 123, null));
+		assertEquals(Integer.valueOf(123), ReflectUtil.castValue(Integer.class, 123D, null));
+		assertEquals(Integer.valueOf(123), ReflectUtil.castValue(Integer.class, 123L, null));
 
-		assertEquals(123, ReflectUtil.castValue(Integer.class, 123, 0));
-		assertEquals(123, ReflectUtil.castValue(Integer.class, 123D, 0D));
-		assertEquals(123, ReflectUtil.castValue(Integer.class, 123L, 0L));
+		assertEquals(Integer.valueOf(123), ReflectUtil.castValue(Integer.class, 123, 0));
+		assertEquals(Integer.valueOf(123), ReflectUtil.castValue(Integer.class, 123D, 0D));
+		assertEquals(Integer.valueOf(123), ReflectUtil.castValue(Integer.class, 123L, 0L));
 
-		assertEquals(123, ReflectUtil.castValue(Integer.class, null, 123));
-		assertEquals(123, ReflectUtil.castValue(Integer.class, null, 123D));
-		assertEquals(123, ReflectUtil.castValue(Integer.class, null, 123L));
+		assertEquals(Integer.valueOf(123), ReflectUtil.castValue(Integer.class, null, 123));
+		assertEquals(Integer.valueOf(123), ReflectUtil.castValue(Integer.class, null, 123D));
+		assertEquals(Integer.valueOf(123), ReflectUtil.castValue(Integer.class, null, 123L));
 
 		assertEquals((Integer) null, ReflectUtil.castValue(Integer.class, null, null));
 	}
